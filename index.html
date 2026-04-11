@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>12 Week｜Chelsea 健身復健計畫</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --bg: #0e0e0f;
+  --surface: #181819;
+  --surface2: #212123;
+  --border: #2a2a2d;
+  --text: #e8e8e6;
+  --text2: #9a9a96;
+  --text3: #5a5a58;
+  --accent-a: #5cd4a0;
+  --accent-b: #5aacee;
+  --accent-c: #b89cf7;
+  --accent-warn: #f0c060;
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', 'Noto Sans TC', sans-serif;
+  --tc: 'Noto Sans TC', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--tc);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  padding: 48px 20px 32px;
+  border-bottom: 1px solid var(--border);
+}
+.header-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.header h1 {
+  font-family: var(--sans);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.header-sub {
+  font-size: 13px;
+  color: var(--text2);
+}
+.header-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--text3);
+}
+
+/* RULE BOX */
+.rule-section {
+  margin: 0;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.rule-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.rule-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.rule-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 10px;
+  text-align: center;
+}
+.rule-days {
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.rule-mod {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.4;
+}
+.rule-note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--text3);
+  border-left: 2px solid var(--accent-a);
+  padding-left: 10px;
+  line-height: 1.6;
+}
+
+/* PHASE NAV */
+.phase-nav {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.phase-nav::-webkit-scrollbar { display: none; }
+.phase-tab {
+  flex-shrink: 0;
+  padding: 16px 20px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--text3);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.phase-tab.active { color: var(--text); border-bottom-color: var(--text); }
+
+/* PHASE PANELS */
+.phase-panel { display: none; }
+.phase-panel.active { display: block; }
+
+/* PHASE INTRO */
+.phase-intro {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.phase-week {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+.phase-name {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.phase-desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+/* MOD TABS */
+.mod-nav {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.mod-tab {
+  flex: 1;
+  padding: 14px 8px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+.mod-tab.active-a { color: var(--accent-a); border-bottom-color: var(--accent-a); }
+.mod-tab.active-b { color: var(--accent-b); border-bottom-color: var(--accent-b); }
+.mod-tab.active-c { color: var(--accent-c); border-bottom-color: var(--accent-c); }
+
+/* MOD PANELS */
+.mod-panel { display: none; padding: 0 0 40px; }
+.mod-panel.active { display: block; }
+
+.mod-meta {
+  padding: 16px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.mod-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+.badge-a { background: rgba(92,212,160,0.12); color: var(--accent-a); border: 1px solid rgba(92,212,160,0.25); }
+.badge-b { background: rgba(90,172,238,0.12); color: var(--accent-b); border: 1px solid rgba(90,172,238,0.25); }
+.badge-c { background: rgba(184,156,247,0.12); color: var(--accent-c); border: 1px solid rgba(184,156,247,0.25); }
+.mod-info {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* SECTION */
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 20px 20px 8px;
+}
+
+/* EXERCISE CARDS */
+.ex-list { padding: 0 20px; display: flex; flex-direction: column; gap: 8px; }
+
+.ex-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.ex-card:active { opacity: 0.85; }
+.ex-card.key-move { border-color: rgba(240,192,96,0.4); }
+
+.ex-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  gap: 12px;
+}
+.ex-left { flex: 1; min-width: 0; }
+.ex-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.ex-card.key-move .ex-name { color: var(--accent-warn); }
+.key-label {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: rgba(240,192,96,0.12);
+  color: var(--accent-warn);
+  border: 1px solid rgba(240,192,96,0.25);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.ex-sets {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text2);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ex-arrow {
+  font-size: 14px;
+  color: var(--text3);
+  margin-left: 8px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.ex-card.open .ex-arrow { transform: rotate(180deg); }
+
+.ex-detail {
+  display: none;
+  padding: 0 16px 14px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+.ex-card.open .ex-detail { display: block; }
+
+/* PROGRESS BAR */
+.progress-section {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.progress-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+}
+.week-dot {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+}
+.week-dot.p1 { background: rgba(92,212,160,0.5); }
+.week-dot.p2 { background: rgba(90,172,238,0.5); }
+.week-dot.p3 { background: rgba(184,156,247,0.5); }
+.phase-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+}
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">Chelsea · 小白e</div>
+  <h1>12 Week<br>健身復健計畫</h1>
+  <div class="header-sub">左臀中肌復健 · 左膝穩定 · 體脂輔助</div>
+  <div class="header-tags">
+    <span class="tag">有重訓經驗</span>
+    <span class="tag">腰部勞損</span>
+    <span class="tag">左膝注意</span>
+    <span class="tag">彈性頻率</span>
+  </div>
+</div>
+
+<div class="progress-section">
+  <div class="progress-label">12 週進程</div>
+  <div class="week-grid">
+    <div class="week-dot p1"></div><div class="week-dot p1"></div>
+    <div class="week-dot p1"></div><div class="week-dot p1"></div>
+    <div class="week-dot p2"></div><div class="week-dot p2"></div>
+    <div class="week-dot p2"></div><div class="week-dot p2"></div>
+    <div class="week-dot p3"></div><div class="week-dot p3"></div>
+    <div class="week-dot p3"></div><div class="week-dot p3"></div>
+  </div>
+  <div class="phase-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(92,212,160,0.7)"></div>啟動期 1–4</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(90,172,238,0.7)"></div>建立期 5–8</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(184,156,247,0.7)"></div>強化期 9–12</div>
+  </div>
+</div>
+
+<div class="rule-section">
+  <div class="rule-title">每週模組規則</div>
+  <div class="rule-grid">
+    <div class="rule-card">
+      <div class="rule-days">1天</div>
+      <div class="rule-mod" style="color:var(--accent-a)">只做 A</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-days">2天</div>
+      <div class="rule-mod" style="color:var(--accent-b)">A + B</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-days">3天</div>
+      <div class="rule-mod" style="color:var(--accent-c)">A + B + C</div>
+    </div>
+  </div>
+  <div class="rule-note">A 模組永遠第一個做，永遠不跳過。腰痛的根源是左臀中肌，不是腰本身。</div>
+</div>
+
+<!-- PHASE NAV -->
+<div class="phase-nav">
+  <button class="phase-tab active" onclick="showPhase('p1',this)">Phase 1 啟動期</button>
+  <button class="phase-tab" onclick="showPhase('p2',this)">Phase 2 建立期</button>
+  <button class="phase-tab" onclick="showPhase('p3',this)">Phase 3 強化期</button>
+</div>
+
+<!-- ==================== PHASE 1 ==================== -->
+<div id="p1" class="phase-panel active">
+  <div class="phase-intro">
+    <div class="phase-week">Week 1 – 4</div>
+    <div class="phase-name">啟動期</div>
+    <div class="phase-desc">喚醒左臀中肌，建立脊椎中立動作模式。這四週不追重量，追的是感受度——讓身體記住「正確用臀」的感覺。</div>
+  </div>
+
+  <div class="mod-nav">
+    <button class="mod-tab active-a" onclick="showMod('p1','a',this,'active-a')">A 臀中肌＋核心</button>
+    <button class="mod-tab" onclick="showMod('p1','b',this,'active-b')">B 下肢控制</button>
+    <button class="mod-tab" onclick="showMod('p1','c',this,'active-c')">C 上肢＋核心</button>
+  </div>
+
+  <!-- P1 MOD A -->
+  <div id="p1-a" class="mod-panel active">
+    <div class="mod-meta">
+      <span class="mod-badge badge-a">A 模組</span>
+      <span class="mod-info">家裡可做 · 30–35 分鐘 · 需彈力帶、泡棉軸或網球</span>
+    </div>
+    <div class="section-label">放鬆先行</div>
+    <div class="ex-list">
+      <div class="ex-card key-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">左臀梨狀肌放鬆<span class="key-label">必做</span></div></div>
+          <div class="ex-sets">3 分鐘</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">坐在泡棉軸或網球上，壓左臀找到最痛的點，停在那裡做深呼吸，不要忍著不呼吸。這是整個計畫最重要的一個動作——腰痛的根源在這裡，不在腰椎。</div>
+      </div>
+    </div>
+
+    <div class="section-label">臀中肌啟動序列</div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">蛤蜊式 Clamshell</div></div>
+          <div class="ex-sets">3×15 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">側躺，膝蓋彎曲約45度，腳跟不離地。緩慢打開膝蓋，感受左側外臀的燒灼感。速度要慢，頂部停1秒再放下。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">側躺直腿外展</div></div>
+          <div class="ex-sets">3×12 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">腿打直，微微向前15度，腳趾朝下不朝天。速度要慢，頂部停1秒。不要讓腰旋轉代償。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">彈力帶站姿側踢</div></div>
+          <div class="ex-sets">3×12 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">彈力帶套在腳踝，單腳站立（扶牆OK）。側向踢出，控制回程不要讓帶子拉著走。左腳站立那組更重要，因為同時訓練左臀中肌的站立穩定功能。</div>
+      </div>
+    </div>
+
+    <div class="section-label">核心穩定</div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">死蟲 Dead Bug</div></div>
+          <div class="ex-sets">3×8 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">平躺，手臂向上伸直，膝蓋彎曲90度。對側手腳緩慢往地板延伸，全程下背貼地。腰一旦拱起立即停——這個動作做一半正確比做完但腰代償更有價值。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">臀橋 Glute Bridge</div></div>
+          <div class="ex-sets">3×15</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">頂部用力夾臀2秒，不要用腰把自己撐起來。如果感覺不到臀部在用力，就重做。可以在膝蓋上放彈力帶增加臀中肌參與。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">棒式 Plank</div></div>
+          <div class="ex-sets">3×20 秒</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">肩膀在手肘正上方，腰椎中立不塌不拱。時間短沒關係，姿勢正確才算。20秒很標準，之後每兩週可以加10秒。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- P1 MOD B -->
+  <div id="p1-b" class="mod-panel">
+    <div class="mod-meta">
+      <span class="mod-badge badge-b">B 模組</span>
+      <span class="mod-info">健身房或家裡 · 40 分鐘 · 追感受度，不追重量</span>
+    </div>
+    <div class="section-label">下肢動作控制</div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">Goblet Squat（限制深度）</div></div>
+          <div class="ex-sets">3×10 輕重</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">雙手捧著一個啞鈴，蹲到舒適角度即停，不強求平行。膝蓋追蹤腳趾方向，不往內夾。腰感到不適立即停。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">後退弓步蹲 Reverse Lunge</div></div>
+          <div class="ex-sets">3×10 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">後腳向後踩，前腳膝蓋不超過腳趾太多。左腳在前那組特別注意膝蓋穩定度，可以慢一點做。身體保持直立，不要前傾。</div>
+      </div>
+      <div class="ex-card key-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">單腳站立平衡<span class="key-label">左膝訓練</span></div></div>
+          <div class="ex-sets">3×30秒 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">左腳站30秒，感覺不穩就輕扶支撐物。這是左膝穩定度的基礎訓練，看起來簡單但建立的是神經控制。之後可以閉眼做增加難度。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">輕量羅馬尼亞硬舉 RDL</div></div>
+          <div class="ex-sets">3×10 輕重</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">髖關節主導向前推，背部全程中立。感受臀部和大腿後側拉伸而不是腰的拉伸。重量很輕沒關係，感受對才是重點。腰有不適立即停。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">彈力帶側步走</div></div>
+          <div class="ex-sets">3×15步 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">帶子套在膝蓋上方，半蹲姿態橫向移動，全程保持張力不要讓帶子鬆掉。感受外臀持續工作的感覺。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- P1 MOD C -->
+  <div id="p1-c" class="mod-panel">
+    <div class="mod-meta">
+      <span class="mod-badge badge-c">C 模組</span>
+      <span class="mod-info">健身房 · 40 分鐘 · 上肢為主，核心輔助</span>
+    </div>
+    <div class="section-label">上肢推拉</div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">坐姿划船 Seated Row</div></div>
+          <div class="ex-sets">3×12</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">拉的時候肩胛骨夾緊，不要聳肩。上背啟動後再動手臂，不是手臂帶動背。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">啞鈴肩推</div></div>
+          <div class="ex-sets">3×10</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">坐姿，核心收緊，腰不過度後仰。推到頂部手臂伸直但不鎖死肘關節。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">上斜胸推 或 伏地挺身</div></div>
+          <div class="ex-sets">3×10</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">避免頸部前伸，核心全程收緊。沒有機器就做伏地挺身，可以跪姿版本。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">滑輪下拉 Lat Pulldown</div></div>
+          <div class="ex-sets">3×10</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">寬握，拉到胸口，肘部向下向後。不要搖晃身體借力。</div>
+      </div>
+    </div>
+    <div class="section-label">核心收尾</div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">鳥狗 Bird Dog</div></div>
+          <div class="ex-sets">3×8 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">四足跪姿，對側手腳緩慢延伸，腰不轉、不塌。想像背上放了一杯水不能灑出來。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">側棒式（左側減量）</div></div>
+          <div class="ex-sets">3×15–20 秒</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">左側先用膝蓋撐地版本，不強迫全版本。右側可做完整版。如果左側完全沒不適，可以嘗試全版本15秒。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PHASE 2 ==================== -->
+<div id="p2" class="phase-panel">
+  <div class="phase-intro">
+    <div class="phase-week">Week 5 – 8</div>
+    <div class="phase-name">建立期</div>
+    <div class="phase-desc">臀中肌已喚醒，開始加入單腿訓練與功能性負重。左膝漸進式承重，核心從靜態進化到動態控制。這四週你會開始感覺到左臀真的在用力。</div>
+  </div>
+
+  <div class="mod-nav">
+    <button class="mod-tab active-a" onclick="showMod('p2','a',this,'active-a')">A 臀中肌進階</button>
+    <button class="mod-tab" onclick="showMod('p2','b',this,'active-b')">B 單腿控制</button>
+    <button class="mod-tab" onclick="showMod('p2','c',this,'active-c')">C 上肢加量</button>
+  </div>
+
+  <div id="p2-a" class="mod-panel active">
+    <div class="mod-meta">
+      <span class="mod-badge badge-a">A 模組 進階</span>
+      <span class="mod-info">在 Phase 1 A 基礎上升級</span>
+    </div>
+    <div class="section-label">放鬆（保留，永遠不跳過）</div>
+    <div class="ex-list">
+      <div class="ex-card key-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">左臀梨狀肌放鬆<span class="key-label">必做</span></div></div>
+          <div class="ex-sets">3 分鐘</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">同 Phase 1。這個習慣需要建立成日常，不只是運動前做。久坐後、睡前都可以做。</div>
+      </div>
+    </div>
+    <div class="section-label">臀中肌進階序列</div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">蛤蜊式加彈力帶</div></div>
+          <div class="ex-sets">3×15 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">在 Phase 1 蛤蜊式上加輕彈力帶阻力。感覺更燒，更好。</div>
+      </div>
+      <div class="ex-card key-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">單腳臀橋<span class="key-label">升級</span></div></div>
+          <div class="ex-sets">3×10 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">雙腳臀橋已熟練後升級。單腳撐地，另一腳伸直或彎曲抬起。骨盆保持水平不向一側傾斜。左腳撐地那組是重點。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">Hip Thrust 臀推（輕重量）</div></div>
+          <div class="ex-sets">3×12</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">背靠椅子或凳子，臀部離地，頂部夾緊2秒。重量輕一點沒關係，感受臀部主導。不要用腰代償。</div>
+      </div>
+    </div>
+    <div class="section-label">動態核心</div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">鳥狗進階（末端停留3秒）</div></div>
+          <div class="ex-sets">3×8 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">延伸到最遠端停留3秒再收回。速度更慢，控制更精準。這是動作品質的升級，不是重量的升級。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">棒式肩觸 Plank Shoulder Tap</div></div>
+          <div class="ex-sets">3×8 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">棒式姿勢，單手輪流碰對側肩，骨盆不旋轉。腳距可以稍微打開增加穩定基底。</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="p2-b" class="mod-panel">
+    <div class="mod-meta">
+      <span class="mod-badge badge-b">B 模組 進階</span>
+      <span class="mod-info">單腿控制為核心，左膝漸進承重</span>
+    </div>
+    <div class="ex-list">
+      <div class="ex-card key-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">保加利亞分腿蹲（輕負重）<span class="key-label">重點</span></div></div>
+          <div class="ex-sets">3×8 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">後腳放椅面，前腳承重蹲下。初期完全不加重，左腳在前那組感受左膝追蹤腳趾的方向。膝蓋不往內夾，用臀部控制下蹲。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">單腳 RDL（徒手或輕重）</div></div>
+          <div class="ex-sets">3×8 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">單腳站，身體向前傾，後腳向後延伸保持平衡。感受後鍊拉伸，不是腰的伸展。可以輕扶牆壁輔助平衡。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">Sumo Squat</div></div>
+          <div class="ex-sets">3×12</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">寬站距，腳尖45度外八，強調臀中肌和內收肌。深度到舒適即可，膝蓋追蹤腳趾方向。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">側向上台階 Lateral Step-up</div></div>
+          <div class="ex-sets">3×10 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">使用低台階（20cm以下），側向踩上，用臀部發力把自己帶上去，不要用腳踹彈起。左腳踩上那組特別慢做，感受左膝的控制。</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="p2-c" class="mod-panel">
+    <div class="mod-meta">
+      <span class="mod-badge badge-c">C 模組</span>
+      <span class="mod-info">Phase 1 C 的動作，組數增加</span>
+    </div>
+    <div class="section-label">上肢（加量版）</div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">坐姿划船</div></div><div class="ex-sets">4×12</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">動作同 Phase 1，組數從3增加到4，或微微加重。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">啞鈴肩推</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">動作同 Phase 1。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">胸推 或 上斜伏地挺身</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">動作同 Phase 1。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">滑輪下拉</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">動作同 Phase 1。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">側棒式（左側升全版本）</div></div><div class="ex-sets">3×20 秒</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">如果左側已無不適，嘗試直腿完整版本20秒。若仍有感，繼續膝蓋撐地版本。不急。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PHASE 3 ==================== -->
+<div id="p3" class="phase-panel">
+  <div class="phase-intro">
+    <div class="phase-week">Week 9 – 12</div>
+    <div class="phase-name">強化期</div>
+    <div class="phase-desc">功能性力量整合。臀中肌已建立基礎，開始讓它在複合動作中真正工作。這四週體態和動作品質會有明顯改變。</div>
+  </div>
+
+  <div class="mod-nav">
+    <button class="mod-tab active-a" onclick="showMod('p3','a',this,'active-a')">A 整合復健</button>
+    <button class="mod-tab" onclick="showMod('p3','b',this,'active-b')">B 功能性下肢</button>
+    <button class="mod-tab" onclick="showMod('p3','c',this,'active-c')">C 全身整合</button>
+  </div>
+
+  <div id="p3-a" class="mod-panel active">
+    <div class="mod-meta">
+      <span class="mod-badge badge-a">A 模組 整合版</span>
+      <span class="mod-info">放鬆仍在，動作精度更高</span>
+    </div>
+    <div class="section-label">放鬆（永遠在）</div>
+    <div class="ex-list">
+      <div class="ex-card key-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">左臀梨狀肌放鬆<span class="key-label">必做</span></div></div>
+          <div class="ex-sets">3 分鐘</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">到了 Phase 3，這個動作應該已經是日常習慣了，不只是運動前做。</div>
+      </div>
+    </div>
+    <div class="section-label">臀中肌整合序列</div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">蛤蜊式加彈力帶</div></div><div class="ex-sets">3×20 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">次數從15升到20，感受度應該更精準了。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">單腳臀橋＋髖外旋</div></div>
+          <div class="ex-sets">3×10 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">單腳臀橋頂部，腳尖向外旋轉再收回。這是臀中肌和梨狀肌的整合動作，直接對應腰痛的復健目標。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">Hip Thrust 中重量</div></div><div class="ex-sets">4×12</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">動作熟練後可加重。腰椎中立永遠優先於重量，感覺腰開始代償就降重。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">死蟲進階（加腳踝彈力帶）</div></div><div class="ex-sets">3×10 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">腳踝套彈力帶增加阻力，動作品質要求同 Phase 1。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">棒式行走 Plank Walk</div></div><div class="ex-sets">3×6 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">棒式姿勢，手向側邊移動再收回，核心全程穩定，骨盆不旋轉。</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="p3-b" class="mod-panel">
+    <div class="mod-meta">
+      <span class="mod-badge badge-b">B 模組 功能性</span>
+      <span class="mod-info">複合動作整合，加入輕度有氧</span>
+    </div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">保加利亞分腿蹲（加重）</div></div><div class="ex-sets">4×8 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">Phase 2動作熟練後加啞鈴。左腳在前那組仍要特別注意膝蓋方向，重量不是目的，控制才是。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">單腳 RDL（加啞鈴）</div></div><div class="ex-sets">3×10 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">在 Phase 2 基礎上加輕重量，動作品質不變。</div>
+      </div>
+      <div class="ex-card key-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-left"><div class="ex-name">X-Band Walk（交叉彈力帶）<span class="key-label">重點</span></div></div>
+          <div class="ex-sets">3×20步 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">彈力帶交叉套在腳踝，半蹲姿態橫向移動。臀中肌全程工作，這個動作直接縮小左右側的力量不對稱。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">輕度有氧（擇一）</div></div><div class="ex-sets">15 分鐘</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">快走上下坡 / 橢圓機 / 固定式自行車。不建議跑步，保護左膝。這個有氧輔助體脂管理，不是主要訓練。</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="p3-c" class="mod-panel">
+    <div class="mod-meta">
+      <span class="mod-badge badge-c">C 模組 全身整合</span>
+      <span class="mod-info">超級組省時，農夫走路整合</span>
+    </div>
+    <div class="ex-list">
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">超級組：划船 ＋ 肩推</div></div><div class="ex-sets">4×(10+10)</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">兩個動作交替進行，中間無休息。划船做完馬上接肩推，省時效率高。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">超級組：胸推 ＋ 滑輪下拉</div></div><div class="ex-sets">4×(10+10)</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">同上，交替進行。推拉配對，省時又有效。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">農夫走路 Farmer's Carry</div></div><div class="ex-sets">3×20 步</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">雙手持重，站姿行走，核心全程穩定，肩膀不聳起。看起來簡單但是高效率的全身整合動作，同時訓練核心和握力。</div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-left"><div class="ex-name">側棒式單腳提膝版</div></div><div class="ex-sets">3×8 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">側棒式穩定後，上方腳膝蓋提起。臀中肌＋側核心的整合終極版。如果還不穩定就繼續做普通版。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleEx(card) {
+  card.classList.toggle('open');
+}
+
+function showPhase(id, btn) {
+  document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.phase-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  var mods = { p1: { mod: 'a', cls: 'active-a' }, p2: { mod: 'a', cls: 'active-a' }, p3: { mod: 'a', cls: 'active-a' } };
+  var m = mods[id];
+  setMod(id, m.mod, m.cls);
+}
+
+function showMod(phase, mod, btn, cls) {
+  setMod(phase, mod, cls);
+  document.querySelectorAll('#' + phase + ' .mod-tab').forEach(b => {
+    b.className = 'mod-tab';
+  });
+  btn.classList.add(cls);
+}
+
+function setMod(phase, mod, cls) {
+  document.querySelectorAll('#' + phase + ' .mod-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#' + phase + ' .mod-tab').forEach(b => b.className = 'mod-tab');
+  document.getElementById(phase + '-' + mod).classList.add('active');
+  var tabs = document.querySelectorAll('#' + phase + ' .mod-tab');
+  var idx = { a: 0, b: 1, c: 2 };
+  if (tabs[idx[mod]]) tabs[idx[mod]].classList.add(cls);
+}
+</script>
+</body>
+</html>
