@@ -35,6 +35,7 @@ body {
   font-size: 15px;
   line-height: 1.65;
   min-height: 100vh;
+  padding-bottom: 56px;
 }
 
 /* HEADER */
@@ -369,6 +370,59 @@ body {
   color: var(--text3);
   opacity: 0.65;
 }
+
+/* CHECK BUTTON */
+.ex-check {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  cursor: pointer;
+  color: var(--border);
+  margin-right: 6px;
+  transition: color 0.2s;
+}
+.ex-check svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.ex-check .ck { opacity: 0; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: opacity 0.15s; }
+.ex-card.checked .ex-check { color: var(--accent-a); }
+.ex-card.checked .ex-check circle { fill: rgba(92,212,160,0.15); stroke-width: 2; }
+.ex-card.checked .ex-check .ck { opacity: 1; }
+.ex-card.checked { opacity: 0.75; }
+.ex-card.checked:active { opacity: 0.65; }
+
+/* TODAY BAR */
+.today-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 200;
+  background: rgba(24,24,25,0.92);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.bar-date { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+.bar-done { font-family: var(--mono); font-size: 12px; color: var(--text2); }
+.bar-num { color: var(--accent-a); font-weight: 500; font-size: 16px; margin: 0 2px; }
+
+/* HISTORY */
+.hist-day { border-bottom: 1px solid var(--border); padding: 16px 0; }
+.hist-day:last-child { border-bottom: none; }
+.hist-date { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.hist-date-text { font-family: var(--mono); font-size: 13px; color: var(--text); }
+.hist-count { font-family: var(--mono); font-size: 11px; color: var(--accent-a); background: rgba(92,212,160,0.1); padding: 2px 8px; border-radius: 10px; }
+.hist-group { margin-bottom: 10px; }
+.hist-mod { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase; }
+.hist-exercises { display: flex; flex-wrap: wrap; gap: 6px; }
+.hist-ex { font-size: 12px; color: var(--text2); background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 4px 10px; }
+.hist-empty { text-align: center; padding: 48px 20px; color: var(--text3); font-size: 13px; line-height: 1.8; }
+.hist-clear { text-align: center; padding: 20px; }
+.hist-clear-btn { font-family: var(--mono); font-size: 11px; color: var(--text3); background: none; border: 1px solid var(--border); border-radius: 8px; padding: 6px 16px; cursor: pointer; }
+.hist-clear-btn:active { opacity: 0.7; }
 </style>
 </head>
 <body>
@@ -538,6 +592,7 @@ body {
   <button class="phase-tab active" onclick="showPhase('p1',this)">Phase 1 啟動期</button>
   <button class="phase-tab" onclick="showPhase('p2',this)">Phase 2 建立期</button>
   <button class="phase-tab" onclick="showPhase('p3',this)">Phase 3 強化期</button>
+  <button id="history-tab" class="phase-tab" onclick="showHistory(this)">紀錄</button>
 </div>
 
 <!-- ==================== PHASE 1 ==================== -->
@@ -564,6 +619,7 @@ body {
     <div class="ex-list">
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">左臀梨狀肌放鬆<span class="key-label">必做</span></div></div>
           <div class="ex-sets">3 分鐘</div>
           <div class="ex-arrow">▾</div>
@@ -576,6 +632,7 @@ body {
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">蛤蜊式 Clamshell</div></div>
           <div class="ex-sets">3×15 每側</div>
           <div class="ex-arrow">▾</div>
@@ -584,6 +641,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">側躺直腿外展</div></div>
           <div class="ex-sets">3×12 每側</div>
           <div class="ex-arrow">▾</div>
@@ -592,6 +650,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">彈力帶站姿側踢</div></div>
           <div class="ex-sets">3×12 每側</div>
           <div class="ex-arrow">▾</div>
@@ -604,6 +663,7 @@ body {
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">死蟲 Dead Bug</div></div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
@@ -612,6 +672,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">臀橋 Glute Bridge</div></div>
           <div class="ex-sets">3×15</div>
           <div class="ex-arrow">▾</div>
@@ -620,6 +681,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">棒式 Plank</div></div>
           <div class="ex-sets">3×20 秒</div>
           <div class="ex-arrow">▾</div>
@@ -639,6 +701,7 @@ body {
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">Goblet Squat（限制深度）</div></div>
           <div class="ex-sets">3×10 輕重</div>
           <div class="ex-arrow">▾</div>
@@ -647,6 +710,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">後退弓步蹲 Reverse Lunge</div></div>
           <div class="ex-sets">3×10 每側</div>
           <div class="ex-arrow">▾</div>
@@ -655,6 +719,7 @@ body {
       </div>
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">單腳站立平衡<span class="key-label">左膝訓練</span></div></div>
           <div class="ex-sets">3×30秒 每側</div>
           <div class="ex-arrow">▾</div>
@@ -663,6 +728,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">輕量羅馬尼亞硬舉 RDL</div></div>
           <div class="ex-sets">3×10 輕重</div>
           <div class="ex-arrow">▾</div>
@@ -671,6 +737,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">彈力帶側步走</div></div>
           <div class="ex-sets">3×15步 每側</div>
           <div class="ex-arrow">▾</div>
@@ -690,6 +757,7 @@ body {
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">坐姿划船 Seated Row</div></div>
           <div class="ex-sets">3×12</div>
           <div class="ex-arrow">▾</div>
@@ -698,6 +766,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">啞鈴肩推</div></div>
           <div class="ex-sets">3×10</div>
           <div class="ex-arrow">▾</div>
@@ -706,6 +775,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">上斜胸推 或 伏地挺身</div></div>
           <div class="ex-sets">3×10</div>
           <div class="ex-arrow">▾</div>
@@ -714,6 +784,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">滑輪下拉 Lat Pulldown</div></div>
           <div class="ex-sets">3×10</div>
           <div class="ex-arrow">▾</div>
@@ -725,6 +796,7 @@ body {
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">鳥狗 Bird Dog</div></div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
@@ -733,6 +805,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">側棒式（左側減量）</div></div>
           <div class="ex-sets">3×15–20 秒</div>
           <div class="ex-arrow">▾</div>
@@ -766,6 +839,7 @@ body {
     <div class="ex-list">
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">左臀梨狀肌放鬆<span class="key-label">必做</span></div></div>
           <div class="ex-sets">3 分鐘</div>
           <div class="ex-arrow">▾</div>
@@ -777,6 +851,7 @@ body {
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">蛤蜊式加彈力帶</div></div>
           <div class="ex-sets">3×15 每側</div>
           <div class="ex-arrow">▾</div>
@@ -785,6 +860,7 @@ body {
       </div>
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">單腳臀橋<span class="key-label">升級</span></div></div>
           <div class="ex-sets">3×10 每側</div>
           <div class="ex-arrow">▾</div>
@@ -793,6 +869,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">Hip Thrust 臀推（輕重量）</div></div>
           <div class="ex-sets">3×12</div>
           <div class="ex-arrow">▾</div>
@@ -804,6 +881,7 @@ body {
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">鳥狗進階（末端停留3秒）</div></div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
@@ -812,6 +890,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">棒式肩觸 Plank Shoulder Tap</div></div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
@@ -829,6 +908,7 @@ body {
     <div class="ex-list">
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">保加利亞分腿蹲（輕負重）<span class="key-label">重點</span></div></div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
@@ -837,6 +917,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">單腳 RDL（徒手或輕重）</div></div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
@@ -845,6 +926,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">Sumo Squat</div></div>
           <div class="ex-sets">3×12</div>
           <div class="ex-arrow">▾</div>
@@ -853,6 +935,7 @@ body {
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">側向上台階 Lateral Step-up</div></div>
           <div class="ex-sets">3×10 每側</div>
           <div class="ex-arrow">▾</div>
@@ -870,23 +953,23 @@ body {
     <div class="section-label">上肢（加量版）</div>
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">坐姿划船</div></div><div class="ex-sets">4×12</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">坐姿划船</div></div><div class="ex-sets">4×12</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-row"/></svg></div>動作同 Phase 1，組數從3增加到4，或微微加重。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">啞鈴肩推</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">啞鈴肩推</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-press"/></svg></div>動作同 Phase 1。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">胸推 或 上斜伏地挺身</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">胸推 或 上斜伏地挺身</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-pushup"/></svg></div>動作同 Phase 1。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">滑輪下拉</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">滑輪下拉</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-pulldown"/></svg></div>動作同 Phase 1。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">側棒式（左側升全版本）</div></div><div class="ex-sets">3×20 秒</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">側棒式（左側升全版本）</div></div><div class="ex-sets">3×20 秒</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-side-plank"/></svg></div>如果左側已無不適，嘗試直腿完整版本20秒。若仍有感，繼續膝蓋撐地版本。不急。</div>
       </div>
     </div>
@@ -916,6 +999,7 @@ body {
     <div class="ex-list">
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">左臀梨狀肌放鬆<span class="key-label">必做</span></div></div>
           <div class="ex-sets">3 分鐘</div>
           <div class="ex-arrow">▾</div>
@@ -926,11 +1010,12 @@ body {
     <div class="section-label">臀中肌整合序列</div>
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">蛤蜊式加彈力帶</div></div><div class="ex-sets">3×20 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">蛤蜊式加彈力帶</div></div><div class="ex-sets">3×20 每側</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-clamshell"/></svg></div>次數從15升到20，感受度應該更精準了。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">單腳臀橋＋髖外旋</div></div>
           <div class="ex-sets">3×10 每側</div>
           <div class="ex-arrow">▾</div>
@@ -938,15 +1023,15 @@ body {
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bridge"/></svg></div>單腳臀橋頂部，腳尖向外旋轉再收回。這是臀中肌和梨狀肌的整合動作，直接對應腰痛的復健目標。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">Hip Thrust 中重量</div></div><div class="ex-sets">4×12</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">Hip Thrust 中重量</div></div><div class="ex-sets">4×12</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hip-thrust"/></svg></div>動作熟練後可加重。腰椎中立永遠優先於重量，感覺腰開始代償就降重。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">死蟲進階（加腳踝彈力帶）</div></div><div class="ex-sets">3×10 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">死蟲進階（加腳踝彈力帶）</div></div><div class="ex-sets">3×10 每側</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-dead-bug"/></svg></div>腳踝套彈力帶增加阻力，動作品質要求同 Phase 1。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">棒式行走 Plank Walk</div></div><div class="ex-sets">3×6 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">棒式行走 Plank Walk</div></div><div class="ex-sets">3×6 每側</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-plank"/></svg></div>棒式姿勢，手向側邊移動再收回，核心全程穩定，骨盆不旋轉。</div>
       </div>
     </div>
@@ -959,15 +1044,16 @@ body {
     </div>
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">保加利亞分腿蹲（加重）</div></div><div class="ex-sets">4×8 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">保加利亞分腿蹲（加重）</div></div><div class="ex-sets">4×8 每側</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lunge"/></svg></div>Phase 2動作熟練後加啞鈴。左腳在前那組仍要特別注意膝蓋方向，重量不是目的，控制才是。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">單腳 RDL（加啞鈴）</div></div><div class="ex-sets">3×10 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">單腳 RDL（加啞鈴）</div></div><div class="ex-sets">3×10 每側</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hinge"/></svg></div>在 Phase 2 基礎上加輕重量，動作品質不變。</div>
       </div>
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
           <div class="ex-left"><div class="ex-name">X-Band Walk（交叉彈力帶）<span class="key-label">重點</span></div></div>
           <div class="ex-sets">3×20步 每側</div>
           <div class="ex-arrow">▾</div>
@@ -975,7 +1061,7 @@ body {
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lateral-walk"/></svg></div>彈力帶交叉套在腳踝，半蹲姿態橫向移動。臀中肌全程工作，這個動作直接縮小左右側的力量不對稱。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">輕度有氧（擇一）</div></div><div class="ex-sets">15 分鐘</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">輕度有氧（擇一）</div></div><div class="ex-sets">15 分鐘</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-cardio"/></svg></div>快走上下坡 / 橢圓機 / 固定式自行車。不建議跑步，保護左膝。這個有氧輔助體脂管理，不是主要訓練。</div>
       </div>
     </div>
@@ -988,56 +1074,212 @@ body {
     </div>
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">超級組：划船 ＋ 肩推</div></div><div class="ex-sets">4×(10+10)</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">超級組：划船 ＋ 肩推</div></div><div class="ex-sets">4×(10+10)</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-superset"/></svg></div>兩個動作交替進行，中間無休息。划船做完馬上接肩推，省時效率高。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">超級組：胸推 ＋ 滑輪下拉</div></div><div class="ex-sets">4×(10+10)</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">超級組：胸推 ＋ 滑輪下拉</div></div><div class="ex-sets">4×(10+10)</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-superset"/></svg></div>同上，交替進行。推拉配對，省時又有效。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">農夫走路 Farmer's Carry</div></div><div class="ex-sets">3×20 步</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">農夫走路 Farmer's Carry</div></div><div class="ex-sets">3×20 步</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-farmer"/></svg></div>雙手持重，站姿行走，核心全程穩定，肩膀不聳起。看起來簡單但是高效率的全身整合動作，同時訓練核心和握力。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-left"><div class="ex-name">側棒式單腳提膝版</div></div><div class="ex-sets">3×8 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">側棒式單腳提膝版</div></div><div class="ex-sets">3×8 每側</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-side-plank"/></svg></div>側棒式穩定後，上方腳膝蓋提起。臀中肌＋側核心的整合終極版。如果還不穩定就繼續做普通版。</div>
       </div>
     </div>
   </div>
 </div>
 
+
+<!-- HISTORY -->
+<div id="history" class="phase-panel">
+  <div class="phase-intro">
+    <div class="phase-week">WORKOUT LOG</div>
+    <div class="phase-name">運動紀錄</div>
+    <div class="phase-desc">回顧每次訓練完成的動作。勾選的紀錄會自動按日期保存在你的裝置上。</div>
+  </div>
+  <div id="history-content" style="padding:0 20px 40px;"></div>
+</div>
+
+<!-- TODAY BAR -->
+<div class="today-bar">
+  <div class="bar-date" id="bar-date"></div>
+  <div class="bar-done">已完成<span class="bar-num" id="bar-count">0</span>個動作</div>
+</div>
+
 <script>
+/* ---- ORIGINAL NAV ---- */
 function toggleEx(card) {
   card.classList.toggle('open');
 }
 
 function showPhase(id, btn) {
-  document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.phase-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.phase-panel').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.phase-tab').forEach(function(b){b.classList.remove('active')});
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
-  var mods = { p1: { mod: 'a', cls: 'active-a' }, p2: { mod: 'a', cls: 'active-a' }, p3: { mod: 'a', cls: 'active-a' } };
-  var m = mods[id];
-  setMod(id, m.mod, m.cls);
+  var mods={p1:{mod:'a',cls:'active-a'},p2:{mod:'a',cls:'active-a'},p3:{mod:'a',cls:'active-a'}};
+  var m=mods[id]; if(m) setMod(id,m.mod,m.cls);
 }
 
-function showMod(phase, mod, btn, cls) {
-  setMod(phase, mod, cls);
-  document.querySelectorAll('#' + phase + ' .mod-tab').forEach(b => {
-    b.className = 'mod-tab';
-  });
+function showMod(phase,mod,btn,cls){
+  setMod(phase,mod,cls);
+  document.querySelectorAll('#'+phase+' .mod-tab').forEach(function(b){b.className='mod-tab'});
   btn.classList.add(cls);
 }
 
-function setMod(phase, mod, cls) {
-  document.querySelectorAll('#' + phase + ' .mod-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('#' + phase + ' .mod-tab').forEach(b => b.className = 'mod-tab');
-  document.getElementById(phase + '-' + mod).classList.add('active');
-  var tabs = document.querySelectorAll('#' + phase + ' .mod-tab');
-  var idx = { a: 0, b: 1, c: 2 };
-  if (tabs[idx[mod]]) tabs[idx[mod]].classList.add(cls);
+function setMod(phase,mod,cls){
+  document.querySelectorAll('#'+phase+' .mod-panel').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('#'+phase+' .mod-tab').forEach(function(b){b.className='mod-tab'});
+  document.getElementById(phase+'-'+mod).classList.add('active');
+  var tabs=document.querySelectorAll('#'+phase+' .mod-tab');
+  var idx={a:0,b:1,c:2};
+  if(tabs[idx[mod]]) tabs[idx[mod]].classList.add(cls);
 }
+
+/* ---- TRACKING ---- */
+var STORAGE_KEY='workout_log';
+var MOD_LABELS={
+  'p1-a':'A 臀中肌＋核心','p1-b':'B 下肢控制','p1-c':'C 上肢＋核心',
+  'p2-a':'A 臀中肌進階','p2-b':'B 單腿控制','p2-c':'C 上肢加量',
+  'p3-a':'A 整合復健','p3-b':'B 功能性下肢','p3-c':'C 全身整合'
+};
+var PHASE_LABELS={p1:'Phase 1',p2:'Phase 2',p3:'Phase 3'};
+
+function todayStr(){
+  var d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function getLog(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');}
+  catch(e){return {};}
+}
+
+function getExId(card){
+  var panel=card.closest('.mod-panel');
+  var nameEl=card.querySelector('.ex-name');
+  var name=nameEl?nameEl.textContent.trim().replace(/\s+/g,' '):'';
+  return (panel?panel.id:'x')+':'+name;
+}
+
+function toggleCheck(btn,e){
+  e.stopPropagation();
+  var card=btn.closest('.ex-card');
+  card.classList.toggle('checked');
+  saveToday();
+  updateBar();
+}
+
+function saveToday(){
+  var log=getLog();
+  var checked=document.querySelectorAll('.ex-card.checked');
+  var ids=[];
+  checked.forEach(function(c){ids.push(getExId(c))});
+  if(ids.length>0){
+    log[todayStr()]=ids;
+  } else {
+    delete log[todayStr()];
+  }
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(log));
+}
+
+function loadToday(){
+  var log=getLog();
+  var data=log[todayStr()];
+  if(!data||!data.length) return;
+  var idSet={};
+  data.forEach(function(id){idSet[id]=true});
+  document.querySelectorAll('.ex-card').forEach(function(card){
+    if(idSet[getExId(card)]){
+      card.classList.add('checked');
+    }
+  });
+}
+
+function updateBar(){
+  var done=document.querySelectorAll('.ex-card.checked').length;
+  var el=document.getElementById('bar-count');
+  if(el) el.textContent=done;
+  var dateEl=document.getElementById('bar-date');
+  if(dateEl) dateEl.textContent=todayStr();
+}
+
+/* ---- HISTORY ---- */
+function showHistory(btn){
+  document.querySelectorAll('.phase-panel').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.phase-tab').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('history').classList.add('active');
+  if(btn) btn.classList.add('active');
+  renderHistory();
+}
+
+function renderHistory(){
+  var log=getLog();
+  var dates=Object.keys(log).sort().reverse();
+  var html='';
+  var t=todayStr();
+
+  if(dates.length===0){
+    html='<div class="hist-empty">還沒有運動紀錄<br>開始訓練並勾選完成的動作吧</div>';
+    document.getElementById('history-content').innerHTML=html;
+    return;
+  }
+
+  dates.forEach(function(date){
+    var exList=log[date];
+    if(!exList||!exList.length) return;
+    var label=date==t?date+' (今天)':date;
+    var weekday=['日','一','二','三','四','五','六'][new Date(date+'T12:00:00').getDay()];
+    label+=' 週'+weekday;
+
+    var groups={};
+    exList.forEach(function(id){
+      var parts=id.split(':');
+      var mod=parts[0];
+      var name=parts.slice(1).join(':');
+      if(!groups[mod]) groups[mod]=[];
+      groups[mod].push(name);
+    });
+
+    html+='<div class="hist-day">';
+    html+='<div class="hist-date"><span class="hist-date-text">'+label+'</span><span class="hist-count">'+exList.length+' 個動作</span></div>';
+
+    Object.keys(groups).sort().forEach(function(mod){
+      var phase=mod.split('-')[0];
+      var pLabel=PHASE_LABELS[phase]||phase;
+      var mLabel=MOD_LABELS[mod]||mod;
+      html+='<div class="hist-group">';
+      html+='<div class="hist-mod">'+pLabel+' · '+mLabel+'</div>';
+      html+='<div class="hist-exercises">';
+      groups[mod].forEach(function(name){
+        html+='<span class="hist-ex">'+name+'</span>';
+      });
+      html+='</div></div>';
+    });
+
+    html+='</div>';
+  });
+
+  html+='<div class="hist-clear"><button class="hist-clear-btn" onclick="clearHistory()">清除所有紀錄</button></div>';
+  document.getElementById('history-content').innerHTML=html;
+}
+
+function clearHistory(){
+  if(confirm('確定要清除所有運動紀錄嗎？')){
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.ex-card.checked').forEach(function(c){c.classList.remove('checked')});
+    updateBar();
+    renderHistory();
+  }
+}
+
+/* ---- INIT ---- */
+loadToday();
+updateBar();
 </script>
 </body>
 </html>
