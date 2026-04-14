@@ -28,6 +28,7 @@
   --accent-b: #5aacee;
   --accent-c: #b89cf7;
   --accent-warn: #f0c060;
+  --accent-red: #f06060;
   --mono: 'DM Mono', monospace;
   --sans: 'DM Sans', 'Noto Sans TC', sans-serif;
   --tc: 'Noto Sans TC', sans-serif;
@@ -134,6 +135,42 @@ body {
   padding-left: 10px;
   line-height: 1.6;
 }
+
+/* COLLAPSIBLE INFO SECTIONS */
+.info-collapse { border-bottom: 1px solid var(--border); }
+.info-header { padding: 16px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.info-header:active { opacity: 0.7; }
+.info-icon { font-size: 14px; color: var(--text3); transition: transform 0.2s; }
+.info-collapse.open .info-icon { transform: rotate(180deg); }
+.info-title { font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--text3); text-transform: uppercase; }
+.info-body { display: none; padding: 0 20px 16px; }
+.info-collapse.open .info-body { display: block; }
+.info-text { font-size: 13px; color: var(--text2); line-height: 1.7; }
+.info-text strong { color: var(--text); font-weight: 500; }
+
+/* WARMUP ITEMS */
+.warmup-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.warmup-item:last-child { border-bottom: none; }
+.warmup-num { font-family: var(--mono); font-size: 11px; color: var(--accent-a); background: rgba(92,212,160,0.1); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.warmup-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+.warmup-en { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+.warmup-meta { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-top: 2px; }
+.warmup-desc { font-size: 12px; color: var(--text2); line-height: 1.6; margin-top: 4px; }
+.warmup-check-wrap { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; }
+.warmup-check { width: 22px; height: 22px; flex-shrink: 0; cursor: pointer; color: var(--border); transition: color 0.2s; margin-top: 1px; }
+.warmup-check svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.warmup-check .ck { opacity: 0; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: opacity 0.15s; }
+.warmup-item.checked .warmup-check { color: var(--accent-a); }
+.warmup-item.checked .warmup-check circle { fill: rgba(92,212,160,0.15); stroke-width: 2; }
+.warmup-item.checked .warmup-check .ck { opacity: 1; }
+.warmup-item.checked { opacity: 0.75; }
+
+/* NOTE BOXES */
+.note-box { border-radius: 8px; padding: 12px 14px; margin: 0 20px 12px; border: 1px solid; border-left-width: 3px; }
+.note-box p { font-size: 12px; color: var(--text2); line-height: 1.7; margin: 0; }
+.note-red { background: rgba(240,96,96,0.06); border-color: rgba(240,96,96,0.2); border-left-color: var(--accent-red); }
+.note-red .note-title { color: var(--accent-red); }
+.note-title { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
 
 /* PHASE NAV */
 .phase-nav {
@@ -267,6 +304,8 @@ body {
 }
 .ex-card:active { opacity: 0.85; }
 .ex-card.key-move { border-color: rgba(240,192,96,0.4); }
+.ex-card.new-move { border-color: rgba(92,212,160,0.4); }
+.ex-card.doc-move { border-color: rgba(90,172,238,0.4); }
 
 .ex-top {
   display: flex;
@@ -281,6 +320,12 @@ body {
   font-weight: 500;
   color: var(--text);
   margin-bottom: 2px;
+}
+.ex-en {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 2px;
 }
 .ex-card.key-move .ex-name { color: var(--accent-warn); }
 .key-label {
@@ -321,6 +366,25 @@ body {
   padding-top: 12px;
 }
 .ex-card.open .ex-detail { display: block; }
+
+/* CUE DOTS */
+.ex-cues { margin-top: 10px; }
+.cue { margin-top: 5px; padding-left: 16px; position: relative; font-size: 12.5px; color: var(--text2); line-height: 1.7; }
+.cue::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; }
+.cue-do::before { background: var(--accent-a); }
+.cue-dont::before { background: var(--accent-red); }
+.cue-feel::before { background: var(--accent-b); }
+.cue-tip::before { background: var(--accent-warn); }
+
+/* TAGS */
+.tag-new, .tag-mod, .tag-key, .tag-doc {
+  display: inline-block; font-family: var(--mono); font-size: 9px; padding: 2px 7px;
+  border-radius: 10px; margin-left: 5px; vertical-align: middle; letter-spacing: 0.3px;
+}
+.tag-new { background: rgba(92,212,160,0.12); color: var(--accent-a); border: 1px solid rgba(92,212,160,0.25); }
+.tag-mod { background: rgba(240,192,96,0.12); color: var(--accent-warn); border: 1px solid rgba(240,192,96,0.25); }
+.tag-key { background: rgba(240,192,96,0.12); color: var(--accent-warn); border: 1px solid rgba(240,192,96,0.25); }
+.tag-doc { background: rgba(90,172,238,0.12); color: var(--accent-b); border: 1px solid rgba(90,172,238,0.25); }
 
 /* PROGRESS BAR */
 .progress-section {
@@ -432,6 +496,38 @@ body {
 .hist-clear { text-align: center; padding: 20px; }
 .hist-clear-btn { font-family: var(--mono); font-size: 11px; color: var(--text3); background: none; border: 1px solid var(--border); border-radius: 8px; padding: 6px 16px; cursor: pointer; }
 .hist-clear-btn:active { opacity: 0.7; }
+
+/* RED FLAGS */
+.red-flags-section {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+}
+.red-flags-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent-red);
+  margin-bottom: 12px;
+}
+.red-flag-item {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.8;
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 4px;
+}
+.red-flag-item::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-red);
+}
 </style>
 </head>
 <body>
@@ -545,17 +641,51 @@ body {
   <path d="M30 22L46 22M42 18L46 22L42 26" stroke-width="2"/>
   <path d="M46 30L30 30L34 26" stroke-width="2"/>
 </symbol>
+<!-- New SVG symbols for v4 -->
+<symbol id="fig-quad-set" viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="14" cy="22" r="4.5" fill="currentColor" stroke="none"/>
+  <path d="M18 24L28 30L56 28M28 30L24 50M56 28L66 42"/>
+  <ellipse cx="48" cy="32" rx="6" ry="3" stroke-width="1.5"/>
+</symbol>
+<symbol id="fig-tke" viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="30" cy="6" r="4.5" fill="currentColor" stroke="none"/>
+  <path d="M30 10.5V28M30 18L20 24M30 18L40 24M30 28L28 52M30 28L38 42"/>
+  <path d="M24 38C16 38 12 36 8 34" stroke-width="2" stroke-dasharray="3 3"/>
+</symbol>
+<symbol id="fig-wall-sit" viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="36" cy="8" r="4.5" fill="currentColor" stroke="none"/>
+  <path d="M36 12.5V28M36 20L26 26M36 20L46 26M36 28L28 42L28 56M36 28L44 42L44 56"/>
+  <line x1="50" y1="4" x2="50" y2="58" stroke-width="2"/>
+</symbol>
+<symbol id="fig-step-down" viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="26" cy="4" r="4.5" fill="currentColor" stroke="none"/>
+  <path d="M26 8.5V24M26 16L18 22M26 16L34 22M26 24L20 38L18 44M26 24L36 38L40 52"/>
+  <rect x="14" y="44" width="20" height="8" rx="2" fill="none"/>
+</symbol>
+<symbol id="fig-pistol" viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="28" cy="6" r="4.5" fill="currentColor" stroke="none"/>
+  <path d="M28 10.5V26M28 18L18 24M28 18L38 24M28 26L24 42L22 54M28 26L48 30"/>
+  <rect x="18" y="42" width="22" height="12" rx="2" fill="none"/>
+</symbol>
+<symbol id="fig-hip-flexor" viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="32" cy="6" r="4.5" fill="currentColor" stroke="none"/>
+  <path d="M32 10.5V28M32 18L22 24M32 18L42 24M32 28L20 42L16 54M32 28L46 42L50 46"/>
+</symbol>
+<symbol id="fig-ql-stretch" viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="36" cy="6" r="4.5" fill="currentColor" stroke="none"/>
+  <path d="M36 10.5V30M36 18L20 8M36 18L46 24M36 30L30 52M36 30L42 52"/>
+</symbol>
 </svg>
 
 
 <div class="header">
   <div class="header-label">Chelsea · 小白e</div>
   <h1>12 Week<br>健身復健計畫</h1>
-  <div class="header-sub">左臀中肌復健 · 左膝穩定 · 體脂輔助</div>
+  <div class="header-sub">左臀中肌復健 · 左膝髕骨外翻修正 · 腰痛放鬆 · 體脂輔助</div>
   <div class="header-tags">
     <span class="tag">有重訓經驗</span>
     <span class="tag">腰部勞損</span>
-    <span class="tag">左膝注意</span>
+    <span class="tag">左膝髕骨外翻</span>
     <span class="tag">彈性頻率</span>
   </div>
 </div>
@@ -593,7 +723,111 @@ body {
       <div class="rule-mod" style="color:var(--accent-c)">A + B + C</div>
     </div>
   </div>
-  <div class="rule-note">A 模組永遠第一個做，永遠不跳過。腰痛的根源是左臀中肌，不是腰本身。</div>
+  <div class="rule-note">A 模組永遠第一個做，永遠不跳過。暖身 6 步驟每次必做。</div>
+</div>
+
+<!-- MEDICAL NOTE (collapsible) -->
+<div class="info-collapse" onclick="toggleInfo(this)">
+  <div class="info-header">
+    <span class="info-icon">▾</span>
+    <span class="info-title">醫囑摘要 2026.04.14</span>
+  </div>
+  <div class="info-body">
+    <div class="info-text">
+      <p><strong>診斷：</strong>左膝髕骨外翻，因左側股四頭外側肌過緊；根因為左側臀中肌太弱。</p>
+      <p style="margin-top:6px"><strong>腰痛處置：</strong>腰方肌（QL）與髂腰肌（Hip Flexor）務必放鬆。</p>
+      <p style="margin-top:6px"><strong>菜單對應：</strong>臀中肌主線不變，新增 VMO 強化＋外側放鬆＋腰方肌放鬆＋髂腰肌伸展。</p>
+    </div>
+  </div>
+</div>
+
+<!-- WARMUP SECTION (collapsible) -->
+<div class="info-collapse open" onclick="toggleInfo(this)">
+  <div class="info-header">
+    <span class="info-icon">▾</span>
+    <span class="info-title">暖身流程（每次訓練必做）· 6 步驟 ~12 min</span>
+  </div>
+  <div class="info-body" onclick="event.stopPropagation()">
+
+    <div class="warmup-item" id="warmup-piriformis" data-warmup-id="warmup:piriformis">
+      <div class="warmup-num">1</div>
+      <div class="warmup-check-wrap">
+        <div class="warmup-check" onclick="toggleWarmup(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+        <div>
+          <div class="warmup-name">左臀梨狀肌放鬆</div>
+          <div class="warmup-en">Piriformis Release</div>
+          <div class="warmup-meta">3 分鐘 · 泡棉軸或網球</div>
+          <div class="warmup-desc">坐在泡棉軸或網球上，左腳踝交叉放右膝，重心偏左臀。找到最痛的點，停住不動，深呼吸。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warmup-item" id="warmup-ql" data-warmup-id="warmup:ql-release">
+      <div class="warmup-num">2</div>
+      <div class="warmup-check-wrap">
+        <div class="warmup-check" onclick="toggleWarmup(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+        <div>
+          <div class="warmup-name">左側腰方肌放鬆<span class="tag-doc">醫囑</span></div>
+          <div class="warmup-en">Quadratus Lumborum (QL) Release</div>
+          <div class="warmup-meta">2 分鐘 · 泡棉軸或網球靠牆</div>
+          <div class="warmup-desc">側躺，泡棉軸放在腰側——最下面的肋骨和骨盆頂端之間。找到緊點停住呼吸。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warmup-item" id="warmup-itband" data-warmup-id="warmup:it-band">
+      <div class="warmup-num">3</div>
+      <div class="warmup-check-wrap">
+        <div class="warmup-check" onclick="toggleWarmup(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+        <div>
+          <div class="warmup-name">外側大腿滾壓<span class="tag-new">新增</span></div>
+          <div class="warmup-en">IT Band Foam Roll</div>
+          <div class="warmup-meta">2 分鐘 · 左側 · 泡棉軸</div>
+          <div class="warmup-desc">側躺在泡棉軸上，從大腿外側靠近屁股的地方慢慢往膝蓋方向滾。滾到膝蓋外側上方就停。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warmup-item" id="warmup-hipflexor" data-warmup-id="warmup:hip-flexor">
+      <div class="warmup-num">4</div>
+      <div class="warmup-check-wrap">
+        <div class="warmup-check" onclick="toggleWarmup(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+        <div>
+          <div class="warmup-name">半跪姿髂腰肌伸展<span class="tag-doc">醫囑</span></div>
+          <div class="warmup-en">Half-Kneeling Hip Flexor Stretch</div>
+          <div class="warmup-meta">每側 30 秒 × 2 組</div>
+          <div class="warmup-desc">後腳膝蓋跪地，收小腹、恥骨往天花板推。感覺後腳大腿根部前方深層拉伸。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warmup-item" id="warmup-patellar" data-warmup-id="warmup:patellar-glide">
+      <div class="warmup-num">5</div>
+      <div class="warmup-check-wrap">
+        <div class="warmup-check" onclick="toggleWarmup(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+        <div>
+          <div class="warmup-name">內側髕骨滑移</div>
+          <div class="warmup-en">Patellar Medial Glide</div>
+          <div class="warmup-meta">10 次 × 2 組</div>
+          <div class="warmup-desc">坐著左腳伸直放鬆，拇指放在膝蓋骨外側邊緣，輕輕往內側推，停 5 秒再放開。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warmup-item" id="warmup-tke" data-warmup-id="warmup:tke">
+      <div class="warmup-num">6</div>
+      <div class="warmup-check-wrap">
+        <div class="warmup-check" onclick="toggleWarmup(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+        <div>
+          <div class="warmup-name">VMO 啟動：終末膝伸展<span class="tag-key">重點</span></div>
+          <div class="warmup-en">Terminal Knee Extension (TKE)</div>
+          <div class="warmup-meta">3×12 每側 · 彈力帶</div>
+          <div class="warmup-desc">彈力帶繞在膝蓋後方，膝蓋微彎 30°，用力踢直對抗帶子拉力。伸到最直時頂住 2 秒。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- PHASE NAV -->
@@ -624,16 +858,51 @@ body {
       <span class="mod-badge badge-a">A 模組</span>
       <span class="mod-info">家裡可做 · 30–35 分鐘 · 需彈力帶、泡棉軸或網球</span>
     </div>
-    <div class="section-label">放鬆先行</div>
+
+    <div class="section-label">VMO 啟動</div>
     <div class="ex-list">
-      <div class="ex-card key-move" onclick="toggleEx(this)">
+      <div class="ex-card new-move" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">左臀梨狀肌放鬆<span class="key-label">必做</span></div></div>
-          <div class="ex-sets">3 分鐘</div>
+          <div class="ex-left">
+            <div class="ex-name">股四頭肌等長收縮＋毛巾夾<span class="tag-new">新增</span><span class="tag-key">重點</span></div>
+            <div class="ex-en">Quad Set with Towel Squeeze</div>
+          </div>
+          <div class="ex-sets">3×15 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-release"/></svg></div>坐在泡棉軸或網球上，壓左臀找到最痛的點，停在那裡做深呼吸，不要忍著不呼吸。這是整個計畫最重要的一個動作——腰痛的根源在這裡，不在腰椎。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-quad-set"/></svg></div>
+          坐在地上，膝蓋下面墊一條捲起來的毛巾。
+          <div class="ex-cues">
+            <div class="cue cue-do">用力把膝蓋往下壓毛巾，想像要把毛巾壓扁——膝蓋會伸直，大腿前面會繃緊。</div>
+            <div class="cue cue-feel">用另一隻手摸膝蓋骨內側上方約兩根手指寬的地方，你會摸到一塊肌肉鼓起來——那就是 VMO。</div>
+            <div class="cue cue-do">壓到最緊時頂住 5 秒，慢慢放鬆。</div>
+            <div class="cue cue-dont">如果只感覺到大腿正前方或外側在用力、內側沒感覺，試著把腳尖微微外轉 10–15° 再壓。</div>
+            <div class="cue cue-tip">這個動作的目的不是練力量，是「教你的大腦找到 VMO 這條肌肉」。</div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-card new-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">終末膝伸展<span class="tag-new">新增</span><span class="tag-key">重點</span></div>
+            <div class="ex-en">Terminal Knee Extension (TKE)</div>
+          </div>
+          <div class="ex-sets">3×12 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-tke"/></svg></div>
+          帶子在膝蓋後方，膝蓋只彎 30°，用力踢直。
+          <div class="ex-cues">
+            <div class="cue cue-do">站著，帶子在膝蓋後方。膝蓋只彎 30°（很淺），用力踢直。</div>
+            <div class="cue cue-feel">伸到最直那一瞬間，膝蓋內側上方會有「緊繃跳動」的感覺——那就是 VMO 在工作。</div>
+            <div class="cue cue-dont">不要把它做成深蹲——彎太多角度 VMO 就不是主角了。</div>
+            <div class="cue cue-do">最直的位置頂住 2 秒，再慢慢彎回來。「慢放」比「快踢」更重要。</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -642,29 +911,64 @@ body {
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">蛤蜊式 Clamshell</div></div>
+          <div class="ex-left">
+            <div class="ex-name">蛤蜊式</div>
+            <div class="ex-en">Clamshell</div>
+          </div>
           <div class="ex-sets">3×15 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-clamshell"/></svg></div>側躺，膝蓋彎曲約45度，腳跟不離地。緩慢打開膝蓋，感受左側外臀的燒灼感。速度要慢，頂部停1秒再放下。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-clamshell"/></svg></div>
+          側躺，雙膝彎曲約 45°，腳跟貼在一起。
+          <div class="ex-cues">
+            <div class="cue cue-do">慢慢把上面那隻腳的膝蓋打開，像蛤蜊開殼。打到最開時停 1 秒再慢慢合上。</div>
+            <div class="cue cue-feel">屁股外側（口袋的位置）會有燒灼痠感——那就是臀中肌在工作。</div>
+            <div class="cue cue-dont">骨盆不要跟著往後倒。想像背後貼著一面牆，只有膝蓋動。</div>
+            <div class="cue cue-tip">速度要慢。數「1-2 開，停，1-2 合」的節奏。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">側躺直腿外展</div></div>
+          <div class="ex-left">
+            <div class="ex-name">側躺直腿外展</div>
+            <div class="ex-en">Side-Lying Hip Abduction</div>
+          </div>
           <div class="ex-sets">3×12 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-side-raise"/></svg></div>腿打直，微微向前15度，腳趾朝下不朝天。速度要慢，頂部停1秒。不要讓腰旋轉代償。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-side-raise"/></svg></div>
+          側躺，上面那條腿打直。
+          <div class="ex-cues">
+            <div class="cue cue-do">腳微微往前移 15°，腳趾指向地板。慢慢抬起，頂部停 1 秒。</div>
+            <div class="cue cue-feel">感受在屁股外側，位置可能稍微偏高一點。</div>
+            <div class="cue cue-dont">不要抬太高——抬到開始覺得是腰在用力就超過了。大約 30–40 公分就夠。</div>
+            <div class="cue cue-dont">肚臍一直朝前方，不是朝天花板。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">彈力帶站姿側踢</div></div>
+          <div class="ex-left">
+            <div class="ex-name">彈力帶站姿側踢</div>
+            <div class="ex-en">Standing Banded Hip Abduction</div>
+          </div>
           <div class="ex-sets">3×12 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-standing-kick"/></svg></div>彈力帶套在腳踝，單腳站立（扶牆OK）。側向踢出，控制回程不要讓帶子拉著走。左腳站立那組更重要，因為同時訓練左臀中肌的站立穩定功能。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-standing-kick"/></svg></div>
+          彈力帶套在兩腳踝，一手扶牆站穩。
+          <div class="ex-cues">
+            <div class="cue cue-do">站穩的那隻腳稍微彎膝，往側邊踢出另一隻腳。回來的時候更慢。</div>
+            <div class="cue cue-feel">站立側的臀中肌在拼命穩定你的骨盆。屁股側面在燒。</div>
+            <div class="cue cue-dont">身體不要歪向一邊借力。上半身保持直的，只有腿在動。</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -673,29 +977,106 @@ body {
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">死蟲 Dead Bug</div></div>
+          <div class="ex-left">
+            <div class="ex-name">死蟲</div>
+            <div class="ex-en">Dead Bug</div>
+          </div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-dead-bug"/></svg></div>平躺，手臂向上伸直，膝蓋彎曲90度。對側手腳緩慢往地板延伸，全程下背貼地。腰一旦拱起立即停——這個動作做一半正確比做完但腰代償更有價值。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-dead-bug"/></svg></div>
+          平躺，雙手向天花板伸直，雙膝彎 90° 抬起。
+          <div class="ex-cues">
+            <div class="cue cue-do">對側手腳同時慢慢往外延伸，另一側不動。</div>
+            <div class="cue cue-feel">下背全程要「黏在地板上」。用手塞到腰下面——手被夾住代表做對了。</div>
+            <div class="cue cue-dont">腰一拱起就停。做一半但腰不拱 > 做完但腰拱了。</div>
+            <div class="cue cue-tip">吐氣的時候延伸、吸氣的時候收回。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">臀橋 Glute Bridge</div></div>
+          <div class="ex-left">
+            <div class="ex-name">臀橋</div>
+            <div class="ex-en">Glute Bridge</div>
+          </div>
           <div class="ex-sets">3×15</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bridge"/></svg></div>頂部用力夾臀2秒，不要用腰把自己撐起來。如果感覺不到臀部在用力，就重做。可以在膝蓋上放彈力帶增加臀中肌參與。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bridge"/></svg></div>
+          平躺，雙腳踩地，膝蓋彎曲。
+          <div class="ex-cues">
+            <div class="cue cue-do">腳跟推地，把屁股抬起來。到最高點夾屁股（想像夾一張紙），停 2 秒。</div>
+            <div class="cue cue-feel">屁股在用力，不是大腿後側或腰在撐。如果腰痠＝用腰在撐，重做。</div>
+            <div class="cue cue-dont">不要把腰拱超高——臀部到肩膀是一條直線就好。</div>
+            <div class="cue cue-tip">膝蓋間放彈力帶可以增加臀中肌參與。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">棒式 Plank</div></div>
+          <div class="ex-left">
+            <div class="ex-name">棒式</div>
+            <div class="ex-en">Forearm Plank</div>
+          </div>
           <div class="ex-sets">3×20 秒</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-plank"/></svg></div>肩膀在手肘正上方，腰椎中立不塌不拱。時間短沒關係，姿勢正確才算。20秒很標準，之後每兩週可以加10秒。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-plank"/></svg></div>
+          手肘撐地，身體打直。
+          <div class="ex-cues">
+            <div class="cue cue-do">肩膀在手肘正上方。從頭到腳是一條直線。</div>
+            <div class="cue cue-dont">腰不塌也不拱。</div>
+            <div class="cue cue-tip">20 秒姿勢正確 > 60 秒但腰塌。每兩週加 10 秒。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">收操</div>
+    <div class="ex-list">
+      <div class="ex-card doc-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">半跪姿髂腰肌伸展<span class="tag-doc">醫囑</span></div>
+            <div class="ex-en">Half-Kneeling Hip Flexor Stretch</div>
+          </div>
+          <div class="ex-sets">每側 30s×2</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hip-flexor"/></svg></div>
+          暖身做過一輪，收操再加深一輪。
+          <div class="ex-cues">
+            <div class="cue cue-do">記住口訣：「收小腹、恥骨往前推」。不是腰往前頂。</div>
+            <div class="cue cue-feel">大腿根部最前方、接近鼠蹊溝的深層有拉伸感——那就是髂腰肌。</div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-card doc-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">腰方肌側彎伸展<span class="tag-doc">醫囑</span></div>
+            <div class="ex-en">Standing QL Stretch</div>
+          </div>
+          <div class="ex-sets">每側 20s×2</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-ql-stretch"/></svg></div>
+          站立，左手高舉過頭。
+          <div class="ex-cues">
+            <div class="cue cue-do">身體慢慢往右邊側彎，感受左邊腰側從肋骨到骨盆之間被拉長。</div>
+            <div class="cue cue-dont">不要旋轉——肚臍一直朝前，只有側彎。也不要聳肩。</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -711,47 +1092,125 @@ body {
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">Goblet Squat（限制深度）</div></div>
-          <div class="ex-sets">3×10 輕重</div>
+          <div class="ex-left">
+            <div class="ex-name">高腳杯深蹲（限深度）<span class="tag-mod">調整</span></div>
+            <div class="ex-en">Goblet Squat -- Depth Limited</div>
+          </div>
+          <div class="ex-sets">3×10</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-squat"/></svg></div>雙手捧著一個啞鈴，蹲到舒適角度即停，不強求平行。膝蓋追蹤腳趾方向，不往內夾。腰感到不適立即停。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-squat"/></svg></div>
+          雙手捧一個啞鈴在胸口前面。
+          <div class="ex-cues">
+            <div class="cue cue-do">膝蓋彎曲不超過 60°（約 1/4 到 1/3 深度）。身後放椅子——屁股一碰到就起來。</div>
+            <div class="cue cue-dont">膝蓋絕對不往內夾。確認追著第二根腳趾的方向走。</div>
+            <div class="cue cue-dont">腰感到不適立刻停。</div>
+            <div class="cue cue-tip">想像屁股往後坐椅子，不是膝蓋往前推。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">後退弓步蹲 Reverse Lunge</div></div>
+          <div class="ex-left">
+            <div class="ex-name">後退弓步蹲</div>
+            <div class="ex-en">Reverse Lunge</div>
+          </div>
           <div class="ex-sets">3×10 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lunge"/></svg></div>後腳向後踩，前腳膝蓋不超過腳趾太多。左腳在前那組特別注意膝蓋穩定度，可以慢一點做。身體保持直立，不要前傾。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lunge"/></svg></div>
+          站直，一腳向後踩一大步。
+          <div class="ex-cues">
+            <div class="cue cue-do">身體保持直立，前腳膝蓋不超過腳趾太多。</div>
+            <div class="cue cue-feel">前腳大腿和臀部出力最多。</div>
+            <div class="cue cue-tip">左腳在前那組速度放更慢，注意左膝對齊腳趾方向。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">單腳站立平衡<span class="key-label">左膝訓練</span></div></div>
+          <div class="ex-left">
+            <div class="ex-name">單腳站立平衡<span class="key-label">左膝</span></div>
+            <div class="ex-en">Single-Leg Balance Stand</div>
+          </div>
           <div class="ex-sets">3×30秒 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-balance"/></svg></div>左腳站30秒，感覺不穩就輕扶支撐物。這是左膝穩定度的基礎訓練，看起來簡單但建立的是神經控制。之後可以閉眼做增加難度。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-balance"/></svg></div>
+          一腳站立，另一腳離地。
+          <div class="ex-cues">
+            <div class="cue cue-do">不穩輕扶牆壁。腳趾輕輕抓地，站立腳膝蓋保持微彎。</div>
+            <div class="cue cue-feel">站立側的臀部、腳踝、膝蓋周圍的小肌肉都在微微顫抖——那就是神經系統在學習控制。</div>
+            <div class="cue cue-tip">覺得太簡單？閉上眼睛試試看。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">輕量羅馬尼亞硬舉 RDL</div></div>
-          <div class="ex-sets">3×10 輕重</div>
+          <div class="ex-left">
+            <div class="ex-name">輕量羅馬尼亞硬舉<span class="tag-mod">調整</span></div>
+            <div class="ex-en">RDL -- Light Load</div>
+          </div>
+          <div class="ex-sets">3×10</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hinge"/></svg></div>髖關節主導向前推，背部全程中立。感受臀部和大腿後側拉伸而不是腰的拉伸。重量很輕沒關係，感受對才是重點。腰有不適立即停。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hinge"/></svg></div>
+          雙手持輕啞鈴，站直。
+          <div class="ex-cues">
+            <div class="cue cue-do">屁股向後推（像要用屁股關門），上半身跟著前傾。背部全程打直。</div>
+            <div class="cue cue-feel">大腿後側有被拉長的感覺，臀部在控制下降速度。</div>
+            <div class="cue cue-dont">不是「彎腰去撿東西」——是「屁股後推、背保持平」。</div>
+            <div class="cue cue-dont">左膝不要鎖直——保持微彎。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">彈力帶側步走</div></div>
+          <div class="ex-left">
+            <div class="ex-name">彈力帶螃蟹走路</div>
+            <div class="ex-en">Banded Lateral Walk</div>
+          </div>
           <div class="ex-sets">3×15步 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lateral-walk"/></svg></div>帶子套在膝蓋上方，半蹲姿態橫向移動，全程保持張力不要讓帶子鬆掉。感受外臀持續工作的感覺。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lateral-walk"/></svg></div>
+          彈力帶套在膝蓋上方，微蹲姿態橫向移動。
+          <div class="ex-cues">
+            <div class="cue cue-do">全程帶子保持張力——腳收回來時不能讓帶子鬆掉。</div>
+            <div class="cue cue-feel">兩邊屁股外側都在持續燒。</div>
+            <div class="cue cue-dont">膝蓋不要往內塌。</div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-card new-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">靠牆半蹲<span class="tag-new">新增</span></div>
+            <div class="ex-en">Wall Sit -- Partial Range</div>
+          </div>
+          <div class="ex-sets">3×20 秒</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-wall-sit"/></svg></div>
+          整個背貼牆，雙腳往前踩一步。
+          <div class="ex-cues">
+            <div class="cue cue-do">慢慢沿著牆滑下去，膝蓋彎到 30–45° 就好（1/4 蹲高度）。停住。</div>
+            <div class="cue cue-feel">大腿前面會開始抖——特別去感覺膝蓋內側上方的 VMO。</div>
+            <div class="cue cue-tip">膝蓋間夾小皮球或枕頭，輕輕持續夾住——大幅增加 VMO 參與。</div>
+            <div class="cue cue-dont">不要蹲到大腿平行地面——角度太深會增加髕骨壓力。淺蹲就好。</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -767,38 +1226,77 @@ body {
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">坐姿划船 Seated Row</div></div>
+          <div class="ex-left">
+            <div class="ex-name">坐姿划船</div>
+            <div class="ex-en">Seated Cable Row</div>
+          </div>
           <div class="ex-sets">3×12</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-row"/></svg></div>拉的時候肩胛骨夾緊，不要聳肩。上背啟動後再動手臂，不是手臂帶動背。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-row"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">先「夾背」（想像兩片肩胛骨中間夾一支筆），然後把手肘拉向身體。背帶動手，不是手拉動背。</div>
+            <div class="cue cue-dont">不要聳肩。肩膀往下壓。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">啞鈴肩推</div></div>
+          <div class="ex-left">
+            <div class="ex-name">啞鈴肩推</div>
+            <div class="ex-en">Seated Dumbbell Shoulder Press</div>
+          </div>
           <div class="ex-sets">3×10</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-press"/></svg></div>坐姿，核心收緊，腰不過度後仰。推到頂部手臂伸直但不鎖死肘關節。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-press"/></svg></div>
+          坐姿，兩手各持啞鈴在肩膀兩側。
+          <div class="ex-cues">
+            <div class="cue cue-do">收緊肚子，然後往上推。推到最高手臂伸直但手肘不完全鎖死。</div>
+            <div class="cue cue-dont">腰不要往後仰——仰了代表重量太重。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">上斜胸推 或 伏地挺身</div></div>
+          <div class="ex-left">
+            <div class="ex-name">上斜胸推 或 跪姿伏地挺身</div>
+            <div class="ex-en">Incline Chest Press / Kneeling Push-Up</div>
+          </div>
           <div class="ex-sets">3×10</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-pushup"/></svg></div>避免頸部前伸，核心全程收緊。沒有機器就做伏地挺身，可以跪姿版本。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-pushup"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">核心全程收緊，身體從頭到膝蓋是一條直線。下去吸氣、推上來吐氣。</div>
+            <div class="cue cue-dont">脖子不要往前伸（像烏龜探頭）——下巴微收。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">滑輪下拉 Lat Pulldown</div></div>
+          <div class="ex-left">
+            <div class="ex-name">滑輪下拉</div>
+            <div class="ex-en">Lat Pulldown</div>
+          </div>
           <div class="ex-sets">3×10</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-pulldown"/></svg></div>寬握，拉到胸口，肘部向下向後。不要搖晃身體借力。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-pulldown"/></svg></div>
+          寬握，坐穩。
+          <div class="ex-cues">
+            <div class="cue cue-do">把橫桿拉到胸口。想像「用手肘去碰口袋」。</div>
+            <div class="cue cue-dont">不要靠身體搖晃借力。微微後仰 5–10° 可以，但不是前後晃。</div>
+            <div class="cue cue-feel">左右闊背肌（腋下後方）有收緊擠壓的感覺。</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="section-label">核心收尾</div>
@@ -806,20 +1304,43 @@ body {
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">鳥狗 Bird Dog</div></div>
+          <div class="ex-left">
+            <div class="ex-name">鳥狗式</div>
+            <div class="ex-en">Bird Dog</div>
+          </div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bird-dog"/></svg></div>四足跪姿，對側手腳緩慢延伸，腰不轉、不塌。想像背上放了一杯水不能灑出來。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bird-dog"/></svg></div>
+          四足跪姿，對側手腳同時慢慢向外延伸。
+          <div class="ex-cues">
+            <div class="cue cue-do">像一張桌子變成一支箭。</div>
+            <div class="cue cue-feel">想像背上放了一杯水不能灑。</div>
+            <div class="cue cue-dont">腰不能轉、不能塌。身體歪向一邊就縮短延伸距離。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">側棒式（左側減量）</div></div>
+          <div class="ex-left">
+            <div class="ex-name">側棒式（左側減量版）</div>
+            <div class="ex-en">Side Plank -- Modified</div>
+          </div>
           <div class="ex-sets">3×15–20 秒</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-side-plank"/></svg></div>左側先用膝蓋撐地版本，不強迫全版本。右側可做完整版。如果左側完全沒不適，可以嘗試全版本15秒。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-side-plank"/></svg></div>
+          側躺，手肘撐地。
+          <div class="ex-cues">
+            <div class="cue cue-do">左側做膝蓋撐地版本，右側可以做完整直腿版本。</div>
+            <div class="cue cue-feel">側腰和臀部外側有收緊感。</div>
+            <div class="cue cue-dont">臀部不要往後掉——從頭到膝蓋成一直線。</div>
+            <div class="cue cue-tip">左側完全沒不適可以嘗試全版本 15 秒。但不急，寧可保守。</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -842,26 +1363,52 @@ body {
   <div id="p2-a" class="mod-panel active">
     <div class="mod-meta">
       <span class="mod-badge badge-a">A 模組 進階</span>
-      <span class="mod-info">在 Phase 1 A 基礎上升級</span>
+      <span class="mod-info">暖身 6 步驟不變 · Quad Set 降為 2×15 暖身用 · TKE 換更重帶子 3×15</span>
     </div>
-    <div class="section-label">放鬆（保留，永遠不跳過）</div>
+
+    <div class="section-label">VMO 暖身</div>
     <div class="ex-list">
-      <div class="ex-card key-move" onclick="toggleEx(this)">
+      <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">左臀梨狀肌放鬆<span class="key-label">必做</span></div></div>
-          <div class="ex-sets">3 分鐘</div>
+          <div class="ex-left">
+            <div class="ex-name">股四頭肌等長收縮</div>
+            <div class="ex-en">Quad Set (warmup)</div>
+          </div>
+          <div class="ex-sets">2×15 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-release"/></svg></div>同 Phase 1。這個習慣需要建立成日常，不只是運動前做。久坐後、睡前都可以做。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-quad-set"/></svg></div>
+          Phase 1 的動作，降為暖身用。動作要領同 Phase 1。
+        </div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">終末膝伸展</div>
+            <div class="ex-en">TKE (heavier band)</div>
+          </div>
+          <div class="ex-sets">3×15 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-tke"/></svg></div>
+          換更重帶子或站更遠增加阻力，動作要領同 Phase 1。
+        </div>
       </div>
     </div>
+
     <div class="section-label">臀中肌進階序列</div>
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">蛤蜊式加彈力帶</div></div>
+          <div class="ex-left">
+            <div class="ex-name">蛤蜊式加彈力帶</div>
+            <div class="ex-en">Clamshell + Band</div>
+          </div>
           <div class="ex-sets">3×15 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
@@ -870,41 +1417,106 @@ body {
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">單腳臀橋<span class="key-label">升級</span></div></div>
+          <div class="ex-left">
+            <div class="ex-name">單腳臀橋<span class="key-label">升級</span></div>
+            <div class="ex-en">Single-Leg Glute Bridge</div>
+          </div>
           <div class="ex-sets">3×10 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bridge"/></svg></div>雙腳臀橋已熟練後升級。單腳撐地，另一腳伸直或彎曲抬起。骨盆保持水平不向一側傾斜。左腳撐地那組是重點。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bridge"/></svg></div>
+          單腳撐地，另一腳伸直或彎曲抬起。
+          <div class="ex-cues">
+            <div class="cue cue-do">骨盆保持水平不向一側傾斜。</div>
+            <div class="cue cue-feel">左腳撐地那組是重點。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">Hip Thrust 臀推（輕重量）</div></div>
+          <div class="ex-left">
+            <div class="ex-name">Hip Thrust 臀推（輕重量）</div>
+            <div class="ex-en">Hip Thrust -- Light</div>
+          </div>
           <div class="ex-sets">3×12</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hip-thrust"/></svg></div>背靠椅子或凳子，臀部離地，頂部夾緊2秒。重量輕一點沒關係，感受臀部主導。不要用腰代償。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hip-thrust"/></svg></div>
+          背靠椅子或凳子，臀部離地。
+          <div class="ex-cues">
+            <div class="cue cue-do">頂部用力夾臀 2 秒。重量輕沒關係，感受臀部主導。</div>
+            <div class="cue cue-dont">不要用腰代償。</div>
+          </div>
+        </div>
       </div>
     </div>
+
     <div class="section-label">動態核心</div>
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">鳥狗進階（末端停留3秒）</div></div>
+          <div class="ex-left">
+            <div class="ex-name">鳥狗進階（末端停留3秒）</div>
+            <div class="ex-en">Bird Dog (3s hold)</div>
+          </div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bird-dog"/></svg></div>延伸到最遠端停留3秒再收回。速度更慢，控制更精準。這是動作品質的升級，不是重量的升級。</div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bird-dog"/></svg></div>延伸到最遠端停留3秒再收回。速度更慢，控制更精準。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">棒式肩觸 Plank Shoulder Tap</div></div>
+          <div class="ex-left">
+            <div class="ex-name">棒式肩觸</div>
+            <div class="ex-en">Plank Shoulder Tap</div>
+          </div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-plank"/></svg></div>棒式姿勢，單手輪流碰對側肩，骨盆不旋轉。腳距可以稍微打開增加穩定基底。</div>
+      </div>
+    </div>
+
+    <div class="section-label">收操</div>
+    <div class="ex-list">
+      <div class="ex-card doc-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">半跪姿髂腰肌伸展<span class="tag-doc">醫囑</span></div>
+            <div class="ex-en">Half-Kneeling Hip Flexor Stretch</div>
+          </div>
+          <div class="ex-sets">每側 30s×2</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hip-flexor"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">「收小腹、恥骨往前推」。</div>
+            <div class="cue cue-feel">大腿根部深層拉伸感——那就是髂腰肌。</div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-card doc-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">腰方肌側彎伸展<span class="tag-doc">醫囑</span></div>
+            <div class="ex-en">Standing QL Stretch</div>
+          </div>
+          <div class="ex-sets">每側 20s×2</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-ql-stretch"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">左手高舉過頭，身體慢慢往右邊側彎。</div>
+            <div class="cue cue-dont">不要旋轉——肚臍朝前，只有側彎。</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -914,42 +1526,105 @@ body {
       <span class="mod-badge badge-b">B 模組 進階</span>
       <span class="mod-info">單腿控制為核心，左膝漸進承重</span>
     </div>
+    <div class="section-label">單腿控制</div>
     <div class="ex-list">
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">保加利亞分腿蹲（輕負重）<span class="key-label">重點</span></div></div>
+          <div class="ex-left">
+            <div class="ex-name">保加利亞分腿蹲（輕負重）<span class="tag-mod">調整</span></div>
+            <div class="ex-en">Bulgarian Split Squat -- Light</div>
+          </div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lunge"/></svg></div>後腳放椅面，前腳承重蹲下。初期完全不加重，左腳在前那組感受左膝追蹤腳趾的方向。膝蓋不往內夾，用臀部控制下蹲。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lunge"/></svg></div>
+          後腳放在椅子上，前腳踩穩。
+          <div class="ex-cues">
+            <div class="cue cue-do">前膝彎曲控制在 60–70°。速度慢，下去 3 秒、上來 2 秒。</div>
+            <div class="cue cue-dont">左腳在前時全程注意膝蓋方向——它很容易往內跑。</div>
+            <div class="cue cue-tip">初期完全不加重。連續兩週穩穩做完 3×8 再考慮拿輕啞鈴。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">單腳 RDL（徒手或輕重）</div></div>
+          <div class="ex-left">
+            <div class="ex-name">單腳羅馬尼亞硬舉</div>
+            <div class="ex-en">Single-Leg RDL (SL-RDL)</div>
+          </div>
           <div class="ex-sets">3×8 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hinge"/></svg></div>單腳站，身體向前傾，後腳向後延伸保持平衡。感受後鍊拉伸，不是腰的伸展。可以輕扶牆壁輔助平衡。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hinge"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">單腳站，身體前傾的同時後腳往後延伸。想像身體是蹺蹺板。</div>
+            <div class="cue cue-feel">站立腳的大腿後側和臀部有拉長又出力的感覺。</div>
+            <div class="cue cue-tip">不穩輕扶牆壁。膝蓋微彎不鎖死。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">Sumo Squat</div></div>
+          <div class="ex-left">
+            <div class="ex-name">相撲深蹲</div>
+            <div class="ex-en">Sumo Squat</div>
+          </div>
           <div class="ex-sets">3×12</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-squat"/></svg></div>寬站距，腳尖45度外八，強調臀中肌和內收肌。深度到舒適即可，膝蓋追蹤腳趾方向。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-squat"/></svg></div>
+          寬站距，腳趾朝外約 45°。
+          <div class="ex-cues">
+            <div class="cue cue-do">蹲下時膝蓋追蹤腳趾方向（往外推），深度到舒適即可。</div>
+            <div class="cue cue-feel">大腿內側和臀部有拉伸和出力感。寬站距對髕骨壓力相對低。</div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-card new-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">前向下台階<span class="tag-new">新增</span><span class="tag-key">重點</span></div>
+            <div class="ex-en">Forward Step-Down</div>
+          </div>
+          <div class="ex-sets">2×10 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-step-down"/></svg></div>
+          站在 10–15 cm 的低台階上。
+          <div class="ex-cues">
+            <div class="cue cue-do">一腳站在台階上，另一腳懸空往前方慢慢下降。腳跟輕觸地面後推回來。</div>
+            <div class="cue cue-feel">站立腳的 VMO 在控制你慢慢下降的速度。</div>
+            <div class="cue cue-dont">膝蓋不能往內跑！全程對齊第二腳趾。</div>
+            <div class="cue cue-tip">越慢越有效。數到 3 才讓腳碰到地。這是修正髕骨追蹤的黃金動作。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">側向上台階 Lateral Step-up</div></div>
+          <div class="ex-left">
+            <div class="ex-name">側向上台階<span class="tag-mod">調整</span></div>
+            <div class="ex-en">Lateral Step-Up</div>
+          </div>
           <div class="ex-sets">3×10 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-step-up"/></svg></div>使用低台階（20cm以下），側向踩上，用臀部發力把自己帶上去，不要用腳踹彈起。左腳踩上那組特別慢做，感受左膝的控制。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-step-up"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">台階不超過 20cm。側向踩上去，用臀部帶上去。</div>
+            <div class="cue cue-feel">踩上去那隻腳的臀部和 VMO 同時在工作。</div>
+            <div class="cue cue-dont">膝蓋不內夾。左腳踩上那組特別慢做。</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -962,24 +1637,24 @@ body {
     <div class="section-label">上肢（加量版）</div>
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">坐姿划船</div></div><div class="ex-sets">4×12</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-row"/></svg></div>動作同 Phase 1，組數從3增加到4，或微微加重。</div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">坐姿划船</div><div class="ex-en">Seated Cable Row</div></div><div class="ex-sets">4×12</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-row"/></svg></div>動作同 Phase 1，組數從 3 增加到 4。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">啞鈴肩推</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">啞鈴肩推</div><div class="ex-en">Seated Dumbbell Shoulder Press</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-press"/></svg></div>動作同 Phase 1。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">胸推 或 上斜伏地挺身</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">胸推 或 上斜伏地挺身</div><div class="ex-en">Incline Chest Press / Kneeling Push-Up</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-pushup"/></svg></div>動作同 Phase 1。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">滑輪下拉</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">滑輪下拉</div><div class="ex-en">Lat Pulldown</div></div><div class="ex-sets">4×10</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-pulldown"/></svg></div>動作同 Phase 1。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">側棒式（左側升全版本）</div></div><div class="ex-sets">3×20 秒</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-side-plank"/></svg></div>如果左側已無不適，嘗試直腿完整版本20秒。若仍有感，繼續膝蓋撐地版本。不急。</div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">側棒式（左側嘗試全版本）</div><div class="ex-en">Side Plank (try full version left)</div></div><div class="ex-sets">3×20 秒</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-side-plank"/></svg></div>如果左側已無不適，嘗試直腿完整版本 20 秒。若仍有感，繼續膝蓋撐地版本。不急。</div>
       </div>
     </div>
   </div>
@@ -1002,46 +1677,102 @@ body {
   <div id="p3-a" class="mod-panel active">
     <div class="mod-meta">
       <span class="mod-badge badge-a">A 模組 整合版</span>
-      <span class="mod-info">放鬆仍在，動作精度更高</span>
+      <span class="mod-info">暖身 10min · TKE 重帶 3×15 · 動作精度更高</span>
     </div>
-    <div class="section-label">放鬆（永遠在）</div>
+
+    <div class="section-label">VMO</div>
     <div class="ex-list">
-      <div class="ex-card key-move" onclick="toggleEx(this)">
+      <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">左臀梨狀肌放鬆<span class="key-label">必做</span></div></div>
-          <div class="ex-sets">3 分鐘</div>
+          <div class="ex-left">
+            <div class="ex-name">終末膝伸展</div>
+            <div class="ex-en">TKE (heavy band)</div>
+          </div>
+          <div class="ex-sets">3×15 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-release"/></svg></div>到了 Phase 3，這個動作應該已經是日常習慣了，不只是運動前做。</div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-tke"/></svg></div>較重帶子，動作要領同前。</div>
       </div>
     </div>
+
     <div class="section-label">臀中肌整合序列</div>
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">蛤蜊式加彈力帶</div></div><div class="ex-sets">3×20 每側</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-clamshell"/></svg></div>次數從15升到20，感受度應該更精準了。</div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">蛤蜊式加帶</div><div class="ex-en">Clamshell + Band</div></div><div class="ex-sets">3×20 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-clamshell"/></svg></div>次數從 15 升到 20，感受度應該更精準了。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">單腳臀橋＋髖外旋</div></div>
+          <div class="ex-left">
+            <div class="ex-name">單腳臀橋＋髖外旋</div>
+            <div class="ex-en">SL Bridge + Hip ER</div>
+          </div>
           <div class="ex-sets">3×10 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bridge"/></svg></div>單腳臀橋頂部，腳尖向外旋轉再收回。這是臀中肌和梨狀肌的整合動作，直接對應腰痛的復健目標。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-bridge"/></svg></div>
+          單腳臀橋頂部，腳尖向外旋轉再收回。
+          <div class="ex-cues">
+            <div class="cue cue-do">橋頂部外旋腳尖，整合臀中肌和梨狀肌。</div>
+            <div class="cue cue-feel">直接對應腰痛的復健目標。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">Hip Thrust 中重量</div></div><div class="ex-sets">4×12</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hip-thrust"/></svg></div>動作熟練後可加重。腰椎中立永遠優先於重量，感覺腰開始代償就降重。</div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">Hip Thrust 中重量</div><div class="ex-en">Hip Thrust (band between knees)</div></div><div class="ex-sets">4×12</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hip-thrust"/></svg></div>
+          膝蓋間放帶子提示對齊。腰椎中立永遠優先於重量。
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">死蟲進階（加腳踝彈力帶）</div></div><div class="ex-sets">3×10 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">死蟲進階（加腳踝彈力帶）</div><div class="ex-en">Dead Bug + Ankle Band</div></div><div class="ex-sets">3×10 每側</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-dead-bug"/></svg></div>腳踝套彈力帶增加阻力，動作品質要求同 Phase 1。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">棒式行走 Plank Walk</div></div><div class="ex-sets">3×6 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">棒式行走</div><div class="ex-en">Plank Walk</div></div><div class="ex-sets">3×6 每側</div><div class="ex-arrow">▾</div></div>
         <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-plank"/></svg></div>棒式姿勢，手向側邊移動再收回，核心全程穩定，骨盆不旋轉。</div>
+      </div>
+    </div>
+
+    <div class="section-label">收操</div>
+    <div class="ex-list">
+      <div class="ex-card doc-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">半跪姿髂腰肌伸展<span class="tag-doc">醫囑</span></div>
+            <div class="ex-en">Half-Kneeling Hip Flexor Stretch</div>
+          </div>
+          <div class="ex-sets">每側 30s×2</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hip-flexor"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">「收小腹、恥骨往前推」。</div>
+            <div class="cue cue-feel">大腿根部深層拉伸感。</div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-card doc-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">腰方肌側彎伸展<span class="tag-doc">醫囑</span></div>
+            <div class="ex-en">Standing QL Stretch</div>
+          </div>
+          <div class="ex-sets">每側 20s×2</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-ql-stretch"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">左手高舉過頭，身體慢慢往右邊側彎。</div>
+            <div class="cue cue-dont">肚臍朝前，只有側彎。</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1051,27 +1782,102 @@ body {
       <span class="mod-badge badge-b">B 模組 功能性</span>
       <span class="mod-info">複合動作整合，加入輕度有氧</span>
     </div>
+    <div class="section-label">功能性下肢</div>
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">保加利亞分腿蹲（加重）</div></div><div class="ex-sets">4×8 每側</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lunge"/></svg></div>Phase 2動作熟練後加啞鈴。左腳在前那組仍要特別注意膝蓋方向，重量不是目的，控制才是。</div>
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">保加利亞分腿蹲（加重）<span class="tag-mod">調整</span></div>
+            <div class="ex-en">Bulgarian Split Squat -- Loaded</div>
+          </div>
+          <div class="ex-sets">4×8 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lunge"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">可以加啞鈴。膝屈曲漸進開放到最多 90°。</div>
+            <div class="cue cue-dont">左腳在前組仍是重點。重量不是目的，控制才是。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">單腳 RDL（加啞鈴）</div></div><div class="ex-sets">3×10 每側</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hinge"/></svg></div>在 Phase 2 基礎上加輕重量，動作品質不變。</div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">單腳羅馬尼亞硬舉（加啞鈴）</div><div class="ex-en">SL-RDL -- Loaded</div></div><div class="ex-sets">3×10 每側</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-hinge"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">Phase 2 的動作加輕重量，動作品質不變。膝蓋微彎。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card key-move" onclick="toggleEx(this)">
         <div class="ex-top">
           <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
-          <div class="ex-left"><div class="ex-name">X-Band Walk（交叉彈力帶）<span class="key-label">重點</span></div></div>
+          <div class="ex-left">
+            <div class="ex-name">交叉彈力帶橫移<span class="key-label">重點</span></div>
+            <div class="ex-en">X-Band Walk</div>
+          </div>
           <div class="ex-sets">3×20步 每側</div>
           <div class="ex-arrow">▾</div>
         </div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lateral-walk"/></svg></div>彈力帶交叉套在腳踝，半蹲姿態橫向移動。臀中肌全程工作，這個動作直接縮小左右側的力量不對稱。</div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-lateral-walk"/></svg></div>
+          彈力帶交叉套在腳踝。
+          <div class="ex-cues">
+            <div class="cue cue-do">半蹲姿態橫向移動，步伐不要太大。全程臀中肌在抵抗帶子拉力。</div>
+            <div class="cue cue-feel">兩邊臀部外側同時在燒。直接縮小左右側力量差距。</div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-card new-move" onclick="toggleEx(this)">
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">單腳淺蹲（椅子輔助）<span class="tag-new">新增</span></div>
+            <div class="ex-en">Pistol Squat Regression -- Box Assisted</div>
+          </div>
+          <div class="ex-sets">2×8 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-pistol"/></svg></div>
+          站在高椅子前面，一腳站立，另一腳向前伸直。
+          <div class="ex-cues">
+            <div class="cue cue-do">慢慢坐到椅子邊緣（膝蓋約彎 45°），然後單腳站起來。</div>
+            <div class="cue cue-feel">VMO、臀中肌、核心三方同時工作。這是整份菜單三條復健線的終極考試。</div>
+            <div class="cue cue-dont">左腳全程監控：膝不內夾、VMO 有感、骨盆不歪。</div>
+            <div class="cue cue-tip">做不到 8 下先從 5 下開始。品質 > 數量。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">輕度有氧（擇一）</div></div><div class="ex-sets">15 分鐘</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-cardio"/></svg></div>快走上下坡 / 橢圓機 / 固定式自行車。不建議跑步，保護左膝。這個有氧輔助體脂管理，不是主要訓練。</div>
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">前向下台階（升級）<span class="tag-mod">升級</span></div>
+            <div class="ex-en">Forward Step-Down -- Higher</div>
+          </div>
+          <div class="ex-sets">3×12 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-step-down"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">台階升高到 15–20cm，組次提升。動作標準同 Phase 2。</div>
+            <div class="cue cue-tip">能穩穩做到 3×12 且膝蓋全程不偏移，代表髕骨追蹤控制已經建立了。</div>
+          </div>
+        </div>
+      </div>
+      <div class="ex-card" onclick="toggleEx(this)">
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">輕度有氧（擇一）</div><div class="ex-en">Light Cardio</div></div><div class="ex-sets">15 分鐘</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-cardio"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">快走上下坡 / 橢圓機 / 固定式自行車。</div>
+            <div class="cue cue-dont">不建議跑步——跑步對髕骨的反覆衝擊目前不適合。</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1081,22 +1887,52 @@ body {
       <span class="mod-badge badge-c">C 模組 全身整合</span>
       <span class="mod-info">超級組省時，農夫走路整合</span>
     </div>
+    <div class="section-label">全身整合</div>
     <div class="ex-list">
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">超級組：划船 ＋ 肩推</div></div><div class="ex-sets">4×(10+10)</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-superset"/></svg></div>兩個動作交替進行，中間無休息。划船做完馬上接肩推，省時效率高。</div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">超級組：划船＋肩推</div><div class="ex-en">Superset: Row + Press</div></div><div class="ex-sets">4×(10+10)</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-superset"/></svg></div>兩個動作交替進行，中間無休息。划船做完馬上接肩推。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">超級組：胸推 ＋ 滑輪下拉</div></div><div class="ex-sets">4×(10+10)</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-superset"/></svg></div>同上，交替進行。推拉配對，省時又有效。</div>
+        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">超級組：胸推＋滑輪下拉</div><div class="ex-en">Superset: Chest + Pulldown</div></div><div class="ex-sets">4×(10+10)</div><div class="ex-arrow">▾</div></div>
+        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-superset"/></svg></div>推拉配對，省時又有效。</div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">農夫走路 Farmer's Carry</div></div><div class="ex-sets">3×20 步</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-farmer"/></svg></div>雙手持重，站姿行走，核心全程穩定，肩膀不聳起。看起來簡單但是高效率的全身整合動作，同時訓練核心和握力。</div>
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">農夫走路</div>
+            <div class="ex-en">Farmer's Carry</div>
+          </div>
+          <div class="ex-sets">3×20 步</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-farmer"/></svg></div>
+          雙手各持重物，站直走路。
+          <div class="ex-cues">
+            <div class="cue cue-do">肩膀不聳、核心收緊、步伐穩定。</div>
+            <div class="cue cue-dont">注意左膝不要因為負重而內夾。不穩定就降重。</div>
+          </div>
+        </div>
       </div>
       <div class="ex-card" onclick="toggleEx(this)">
-        <div class="ex-top"><div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div><div class="ex-left"><div class="ex-name">側棒式單腳提膝版</div></div><div class="ex-sets">3×8 每側</div><div class="ex-arrow">▾</div></div>
-        <div class="ex-detail"><div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-side-plank"/></svg></div>側棒式穩定後，上方腳膝蓋提起。臀中肌＋側核心的整合終極版。如果還不穩定就繼續做普通版。</div>
+        <div class="ex-top">
+          <div class="ex-check" onclick="toggleCheck(this,event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path class="ck" d="M7 12l3 3 7-7"/></svg></div>
+          <div class="ex-left">
+            <div class="ex-name">側棒式提膝版</div>
+            <div class="ex-en">Side Plank with Knee Drive</div>
+          </div>
+          <div class="ex-sets">3×8 每側</div>
+          <div class="ex-arrow">▾</div>
+        </div>
+        <div class="ex-detail">
+          <div class="ex-fig"><svg viewBox="0 0 80 64"><use href="#fig-side-plank"/></svg></div>
+          <div class="ex-cues">
+            <div class="cue cue-do">側棒式穩定後，上方腳膝蓋提起再放下。臀中肌＋側核心終極版。</div>
+            <div class="cue cue-tip">還不穩定就繼續做普通側棒式。不急著升級。</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1113,6 +1949,16 @@ body {
   <div id="history-content" style="padding:0 20px 40px;"></div>
 </div>
 
+<!-- RED FLAGS -->
+<div class="red-flags-section">
+  <div class="red-flags-title">紅線：什麼時候該停止訓練並回診</div>
+  <div class="red-flag-item">膝蓋有「卡住」或「鎖死伸不直」的感覺</div>
+  <div class="red-flag-item">訓練後膝蓋腫脹超過 24 小時未消</div>
+  <div class="red-flag-item">感覺膝蓋骨要滑出去（滑脫感）</div>
+  <div class="red-flag-item">不動的時候膝蓋也在痛</div>
+  <div class="red-flag-item">腰痛突然變尖銳、和平時的痠不一樣</div>
+</div>
+
 <!-- TODAY BAR -->
 <div class="today-bar">
   <div class="bar-date" id="bar-date"></div>
@@ -1120,6 +1966,11 @@ body {
 </div>
 
 <script>
+/* ---- TOGGLE INFO SECTIONS ---- */
+function toggleInfo(el) {
+  el.classList.toggle('open');
+}
+
 /* ---- ORIGINAL NAV ---- */
 function toggleEx(card) {
   card.classList.toggle('open');
@@ -1154,9 +2005,10 @@ var STORAGE_KEY='workout_log';
 var MOD_LABELS={
   'p1-a':'A 臀中肌＋核心','p1-b':'B 下肢控制','p1-c':'C 上肢＋核心',
   'p2-a':'A 臀中肌進階','p2-b':'B 單腿控制','p2-c':'C 上肢加量',
-  'p3-a':'A 整合復健','p3-b':'B 功能性下肢','p3-c':'C 全身整合'
+  'p3-a':'A 整合復健','p3-b':'B 功能性下肢','p3-c':'C 全身整合',
+  'warmup':'暖身流程'
 };
-var PHASE_LABELS={p1:'Phase 1',p2:'Phase 2',p3:'Phase 3'};
+var PHASE_LABELS={p1:'Phase 1',p2:'Phase 2',p3:'Phase 3',warmup:'暖身'};
 
 function todayStr(){
   var d=new Date();
@@ -1175,6 +2027,10 @@ function getExId(card){
   return (panel?panel.id:'x')+':'+name;
 }
 
+function getWarmupId(item){
+  return item.getAttribute('data-warmup-id')||'warmup:unknown';
+}
+
 function toggleCheck(btn,e){
   e.stopPropagation();
   var card=btn.closest('.ex-card');
@@ -1183,11 +2039,21 @@ function toggleCheck(btn,e){
   updateBar();
 }
 
+function toggleWarmup(btn,e){
+  e.stopPropagation();
+  var item=btn.closest('.warmup-item');
+  item.classList.toggle('checked');
+  saveToday();
+  updateBar();
+}
+
 function saveToday(){
   var log=getLog();
-  var checked=document.querySelectorAll('.ex-card.checked');
   var ids=[];
-  checked.forEach(function(c){ids.push(getExId(c))});
+  // Exercise cards
+  document.querySelectorAll('.ex-card.checked').forEach(function(c){ids.push(getExId(c))});
+  // Warmup items
+  document.querySelectorAll('.warmup-item.checked').forEach(function(w){ids.push(getWarmupId(w))});
   if(ids.length>0){
     log[todayStr()]=ids;
   } else {
@@ -1202,15 +2068,22 @@ function loadToday(){
   if(!data||!data.length) return;
   var idSet={};
   data.forEach(function(id){idSet[id]=true});
+  // Restore exercise cards
   document.querySelectorAll('.ex-card').forEach(function(card){
     if(idSet[getExId(card)]){
       card.classList.add('checked');
     }
   });
+  // Restore warmup items
+  document.querySelectorAll('.warmup-item').forEach(function(item){
+    if(idSet[getWarmupId(item)]){
+      item.classList.add('checked');
+    }
+  });
 }
 
 function updateBar(){
-  var done=document.querySelectorAll('.ex-card.checked').length;
+  var done=document.querySelectorAll('.ex-card.checked').length + document.querySelectorAll('.warmup-item.checked').length;
   var el=document.getElementById('bar-count');
   if(el) el.textContent=done;
   var dateEl=document.getElementById('bar-date');
@@ -1281,6 +2154,7 @@ function clearHistory(){
   if(confirm('確定要清除所有運動紀錄嗎？')){
     localStorage.removeItem(STORAGE_KEY);
     document.querySelectorAll('.ex-card.checked').forEach(function(c){c.classList.remove('checked')});
+    document.querySelectorAll('.warmup-item.checked').forEach(function(w){w.classList.remove('checked')});
     updateBar();
     renderHistory();
   }
